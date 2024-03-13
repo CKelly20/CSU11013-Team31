@@ -17,7 +17,7 @@ boolean flightFilterHovered = false;
 boolean flightFilterClicked = false;
 
 void setup() {
-  size(2142, 1200);  // 设置窗口大小
+  size(2142, 1200);  
   backgroundImage = loadImage("images (2).jpg"); 
   wordsImage = loadImage("words.png");
   bannerX = width;
@@ -138,6 +138,6 @@ void mouseMoved() {
 void mousePressed() {
   
   if (mouseX > 250 && mouseX < 550 && mouseY > 450 && mouseY < 500) {
-    flightFilterClicked = !flightFilterClicked; // 切换按钮状态
+    flightFilterClicked = !flightFilterClicked;
   }
 }
