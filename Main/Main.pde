@@ -1,7 +1,14 @@
 String[] lines;
 
+
+void settings(){
+size(SCREENX, SCREENY);
+}
+
+
+
 void setup() {                                    // reads data and converts to bytes, to string, then printData method is initialised.
-  byte[] fileBytes = loadBytes("flights.csv");    
+  byte[] fileBytes = loadBytes("flights2k.csv");    
   String fileContent = new String(fileBytes);
   lines = split(fileContent, "\n");
   printData();
@@ -10,6 +17,10 @@ void setup() {                                    // reads data and converts to 
 void draw() {
   // empty rn as havnt progressed that far in project to date.
 }
+
+
+
+
 
 void printData() {
   // This loops through every line and prints it until last one is read.
