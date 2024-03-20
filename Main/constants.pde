@@ -5,3 +5,5 @@ final int EVENT_FORWARD=2;
 final int EVENT_BUTTON2=3;
 final int EVENT_BACKWARD=4;
 final int EVENT_NULL=0;
+final int QUERY_NULL=0;
+final int QUERY_1=1;

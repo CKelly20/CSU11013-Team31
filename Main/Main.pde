@@ -2,6 +2,8 @@ String[] lines;
 PFont stdFont;
 Widget widget1, widget2, widget3, widget4;
 Screen currentScreen,screen1, screen2;
+int currentQuery;
+Render currentRender;
 
 void settings(){
 size(SCREENX, SCREENY);
@@ -14,6 +16,7 @@ void setup() {                                    // reads data and converts to 
   String fileContent = new String(fileBytes);
   lines = split(fileContent, "\n");
   printData();
+  currentQuery=QUERY_NULL;
   
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
@@ -22,9 +25,9 @@ void setup() {                                    // reads data and converts to 
           stdFont, EVENT_BUTTON1);
   widget2 = new Widget(200, 180, 200, 40, "Button 2", color(100, 155, 150),
           stdFont, EVENT_BUTTON2); 
-  widget3 = new Widget(200, 380, 200, 40, "Forward", color(125, 150, 200),
+  widget3 = new Widget(200, 380, 225, 40, "Busiest Airports?", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
-  widget4 = new Widget(200, 380, 200, 40, "Backward", color(100, 155, 150),
+  widget4 = new Widget(200, 380, 200, 40, "Homepage", color(100, 155, 150),
           stdFont, EVENT_BACKWARD);
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>());
@@ -32,6 +35,7 @@ void setup() {                                    // reads data and converts to 
   screen1.addWidget(widget1, widget3);
   screen2.addWidget(widget2, widget4);
   currentScreen = screen1;
+  currentRender = new Render (QUERY_NULL);    //Setting up a render object 
 }
 
 void draw() {
@@ -58,10 +62,12 @@ void mousePressed(){
      println("button 2!");
      break;
    case EVENT_FORWARD:
-     println("forward"); currentScreen = screen2;
+     println("Query One"); currentScreen = screen2;
+     currentQuery=QUERY_1;
+     currentRender.query=currentQuery;
      break;
    case EVENT_BACKWARD:
-     println("backward"); currentScreen = screen1;
+     println("Go home"); currentScreen = screen1;
      break;
      } 
   }
