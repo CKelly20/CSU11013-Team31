@@ -54,4 +54,4 @@ class Render {
       text("Backward", 400, 825);
     }
   }
-}
+}／／（edit　by　Viktor）
