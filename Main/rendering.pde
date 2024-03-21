@@ -7,7 +7,7 @@ class Render {
   
   void draw(){
     if(query == QUERY_1){
-    
+    // Needs fixing 
       barWidth = 0; 
       float startX = 350; 
       float startY = 130;
