@@ -5,12 +5,7 @@ import java.util.Comparator;
 
 class Render {
   int query;
-  String[] data;
-
-  Render(int userQuery, String[] data) {
-    this.query = userQuery;
-    this.data = data; // Pass the flight data to the Render
-  }
+  String[] data;    
   final int barHeight = 50;
   final color hoverColor = color(255, 0, 0);
   final color buttonColor = color(255);
@@ -18,9 +13,14 @@ class Render {
   float maxValue = 300; // Example max value
   String[] labels = {"Label 1", "Label 2", "Label 3"}; // Example labels
 
+
+  Render(int userQuery, String[] data) {
+    this.query = userQuery;
+    this.data = data; // Pass the flight data to the Render
+  }
+
   
   void draw() {
-    drawBusiestAirports();
     if (query == QUERY_1) {
       float barWidth = 0;
       float startX = 560;

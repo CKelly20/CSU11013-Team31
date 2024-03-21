@@ -45,6 +45,9 @@ void setup() {                                    // reads data and converts to 
 
 void draw() {  
   currentScreen.draw();
+  if(currentScreen==screen2){
+    currentRender.drawBusiestAirports();
+  }
 }
 
 void printData() {
