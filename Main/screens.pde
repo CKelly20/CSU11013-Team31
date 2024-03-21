@@ -28,8 +28,7 @@ class Screen{
    for(int i = 0; i < screenWidgets.size(); i++){
      screenWidgets.get(i).draw();
    }
-   currentRender.draw();                //Ask our render to draw itself 
-}
+  }
   
   ArrayList getWidgets()
   {
