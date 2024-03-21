@@ -35,7 +35,7 @@ void setup() {                                    // reads data and converts to 
   screen1.addWidget(widget1, widget3);
   screen2.addWidget(widget2, widget4);
   currentScreen = screen1;
-  currentRender = new Render (QUERY_NULL);    //Setting up a render object 
+  currentRender = new Render (QUERY_NULL, null);    //Setting up a render object 
 }
 
 void draw() {
@@ -61,11 +61,14 @@ void mousePressed(){
    case EVENT_BUTTON2:
      println("button 2!");
      break;
-   case EVENT_FORWARD:
-     println("Query One"); currentScreen = screen2;
-     currentQuery=QUERY_1;
-     currentRender.query=currentQuery;
-     break;
+     case EVENT_FORWARD:
+    println("Query One");
+    currentScreen = screen2;
+    currentQuery = QUERY_1;
+    currentRender.query = currentQuery;
+    currentRender.data = lines;
+    break;
+
    case EVENT_BACKWARD:
      println("Go home"); currentScreen = screen1;
      break;
