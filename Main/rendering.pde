@@ -1,19 +1,3 @@
-／＊class Render{
-   int query;
-  
-  Render(int userQuery){
-    this.query=userQuery;
-  }
-  
-  
-  void draw(){
-   if(query==QUERY_1){
-     println("test");
-   }
-}
-}
-＊／
-
 class Render {
   int query;
   
@@ -54,4 +38,4 @@ class Render {
       text("Backward", 400, 825);
     }
   }
-}／／（edit　by　Viktor）
+}    //edit by Viktor
