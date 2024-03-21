@@ -1,3 +1,6 @@
+PFont boldFont;
+PImage backgroundImage;
+
 class Screen{
   color background;
   ArrayList<Widget> screenWidgets;
@@ -25,9 +28,17 @@ class Screen{
 
   void draw(){
    background(background);
+   image(backgroundImage, 0, 0);
    for(int i = 0; i < screenWidgets.size(); i++){
      screenWidgets.get(i).draw();
    }
+   
+   // Heading
+   textSize(128);
+   fill(255);
+   text("Flight Tracker", 165, 180);
+   
+   
   }
   
   ArrayList getWidgets()
