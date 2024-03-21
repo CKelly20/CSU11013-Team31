@@ -1,4 +1,4 @@
-final int SCREENX = 700;   
+final int SCREENX = 1000;   
 final int SCREENY = 700;
 final int EVENT_BUTTON1=1;
 final int EVENT_FORWARD=2;
