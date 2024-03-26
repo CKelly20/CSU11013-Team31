@@ -3,12 +3,13 @@ String[] lines;
 PFont stdFont;
 Widget widget1, widget2, widget3, widget4;
 Screen currentScreen,screen1, screen2;
+Render currentRender;
+
 
 void settings(){
 size(SCREENX, SCREENY);
 }
 
-Render currentRender;
 
 void setup() {                                    // reads data and converts to bytes, to string, then printData method is initialised.
   byte[] fileBytes = loadBytes("flights2k.csv");    
@@ -21,17 +22,17 @@ void setup() {                                    // reads data and converts to 
   
   widget1 = new Widget(380, 280, 200, 40, "Button 1", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
-  widget2 = new Widget(380, 280, 200, 40, "Button 2", color(100, 155, 150),
-          stdFont, EVENT_BUTTON2); 
+  widget2 = new Widget(380, 280, 200, 40, "Button 2", color(100, 155, 150),        //Has no use. Can be repurposed as Query button!
+         stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(380, 380, 200, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
   widget4 = new Widget(50, 610, 200, 40, "Return", color(100, 155, 150),
           stdFont, EVENT_BACKWARD);
   
-  screen1 = new Screen(color(200,204,225), new ArrayList<Widget>());
-  screen2 = new Screen(color(200,225,204), new ArrayList<Widget>());
+  screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
+  screen2 = new Screen(color(200,225,204), new ArrayList<Widget>(), 2);
   screen1.addWidget(widget1, widget3);
-  screen2.addWidget(widget2, widget4);
+  screen2.addWidget(widget4);  
   currentScreen = screen1;
 
   currentRender = new Render (QUERY_NULL, null);    //Setting up a render object 
@@ -45,10 +46,11 @@ void setup() {                                    // reads data and converts to 
 
 void draw() {  
   currentScreen.draw();
-  if(currentScreen==screen2){
-    currentRender.drawBusiestAirports();
+  currentRender.draw();
+  //if(currentScreen==screen2){
+   // currentRender.drawBusiestAirports();
   }
-}
+//}
 
 void printData() {
   // This loops through every line and prints it until last one is read.
@@ -59,21 +61,23 @@ void printData() {
 
 void mousePressed(){
   switch(currentScreen.getEvent(mouseX, mouseY)) {
-   case EVENT_BUTTON1:
+   case EVENT_BUTTON1:              //Button for Query 2 
      println("button 1!");
+     currentRender.query= QUERY_2;
+     currentScreen = screen2;
      break;
-   case EVENT_BUTTON2:
+   case EVENT_BUTTON2:        //Does nothing ATM
      println("button 2!");
      break;
-
-     case EVENT_FORWARD:
-    println("Query One");
-    currentScreen = screen2;
-    currentRender.data = lines;
-    break;
-
-   case EVENT_BACKWARD:
+    case EVENT_FORWARD:              //Button for Query 1
+      println("Query One");
+      currentScreen = screen2;
+      currentRender.query= QUERY_1;
+      currentRender.data = lines;
+      break;
+   case EVENT_BACKWARD:                  // Home Button. Brings us back to screen 1 and resets query!
      println("backward"); currentScreen = screen1;
+     currentRender.query= QUERY_NULL;
      break;
      } 
   }

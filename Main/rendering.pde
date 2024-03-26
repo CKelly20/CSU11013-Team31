@@ -21,34 +21,41 @@ class Render {
 
   
   void draw() {
-    if (query == QUERY_1) {
-      float barWidth = 0;
-      float startX = 560;
-      float startY = 190;
+    switch(query){
+      case QUERY_1:
+        drawBusiestAirports();
+        
+        float barWidth = 0;              // 2 graphs being drawn. One needs to be picked and the other deleted.
+        float startX = 560;
+        float startY = 190;
 
-      for (int i = 0; i < values.length; i++) {
-        float normalizedWidth = map(values[i], 0, maxValue, 0, 600);
-        fill(0, 0, 255);
-        rect(startX, startY + i * 80, normalizedWidth, barHeight);
+        for (int i = 0; i < values.length; i++) {
+          float normalizedWidth = map(values[i], 0, maxValue, 0, 600);
+          fill(0, 0, 255);
+          rect(startX, startY + i * 80, normalizedWidth, barHeight);
 
-        fill(#F0E929);
-        textAlign(RIGHT);
-        text(labels[i], startX - 10, startY + i * 80 + barHeight / 2);
-      }
-       if (mouseX > 250 && mouseX < 550 && mouseY > 800 && mouseY < 850) {
-        fill(hoverColor);
-      } else {
-        fill(buttonColor);
-      }
-      stroke(0);
-      strokeWeight(2);
-      rect(250, 800, 300, 50);
-      fill(0);
-      textAlign(CENTER, CENTER);
-      textSize(20);
-      text("Backward", 400, 825);
+          fill(#F0E929);
+          textAlign(RIGHT);
+          text(labels[i], startX - 10, startY + i * 80 + barHeight / 2);
+        }
+         if (mouseX > 250 && mouseX < 550 && mouseY > 800 && mouseY < 850) {
+          fill(hoverColor);
+        } else {
+          fill(buttonColor);
+        }
+        stroke(0);
+        strokeWeight(2);
+        rect(250, 800, 300, 50);
+        fill(0);
+        textAlign(CENTER, CENTER);
+        textSize(20);
+        text("Backward", 400, 825);
+       break;
+       case QUERY_2:
+         println("Drawing Graph");
+         break;
     }
-    }
+  }
 
   
   void drawBusiestAirports() {
