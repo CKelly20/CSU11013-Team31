@@ -56,7 +56,8 @@ void setup() {                                    // reads data and converts to 
   cancelledStates = topCancelledOriginStates(flights);                    // Find the data then create the chart for Query 2
   cancellationCount =  getAmountCancelled(flights,cancelledStates);
   BarChart barChart = new BarChart(this);                               
-  cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "States", "No. of flights cancelled");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel)
+  cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "State", "No. of flights cancelled",
+  "Top 5 States for flight Cancellations.");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
 
          
 }
