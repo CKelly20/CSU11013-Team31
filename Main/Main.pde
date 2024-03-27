@@ -3,6 +3,7 @@ PFont stdFont;
 Widget widget1, widget2, widget3, widget4;
 Screen currentScreen,screen1, screen2;
 Render currentRender;
+Flights[] flights;
 
 
 void settings(){
@@ -12,7 +13,7 @@ size(SCREENX, SCREENY);
 
 void setup() {                                    // reads data and converts to bytes, to string, then printData method is initialised.
   lines = loadStrings("flights2k.csv"); // Load data from file into an array of strings
-  Flights[] flights = new Flights[lines.length]; //// Create an array of Flights objects
+  flights = new Flights[lines.length]; //// Create an array of Flights objects
   for (int i = 1; i < lines.length; i++) {
     String[] data = lines[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
     flights[i] = new Flights(data);
@@ -40,17 +41,17 @@ void setup() {                                    // reads data and converts to 
   
   // This is for the screens class
   backgroundImage = loadImage("background.jpg");
-  backgroundImage.resize(width, height);
+  backgroundImage.resize(width, height); //<>//
   
-  for (Flights flight : flights) { // could be removed, print out all flight objects and its info
-    if (flight != null) {
-      flight.printFlight();
-    }
-  }
+  //for (Flights flight : flights) { // could be removed, print out all flight objects and its info
+   // if (flight != null) {
+  //    flight.printFlight();
+ //   }
+ // }
 }
 
 void draw() {  
-  currentScreen.draw();
+  currentScreen.draw(); //<>//
   currentRender.draw();
   //if(currentScreen==screen2){
    // currentRender.drawBusiestAirports();
