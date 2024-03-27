@@ -24,36 +24,6 @@ class Render {
     switch(query){
       case QUERY_1:
         drawBusiestAirports();
-        
-        float barWidth = 0;              // 2 graphs being drawn. One needs to be picked and the other deleted.
-        float startX = 560;
-        float startY = 190;
-
-        for (int i = 0; i < values.length; i++) {
-          float normalizedWidth = map(values[i], 0, maxValue, 0, 600);
-          fill(0, 0, 255);
-          rect(startX, startY + i * 80, normalizedWidth, barHeight);
-
-          fill(#F0E929);
-          textAlign(RIGHT);
-          text(labels[i], startX - 10, startY + i * 80 + barHeight / 2);
-        }
-         if (mouseX > 250 && mouseX < 550 && mouseY > 800 && mouseY < 850) {
-          fill(hoverColor);
-        } else {
-          fill(buttonColor);
-        }
-        stroke(0);
-        strokeWeight(2);
-        rect(250, 800, 300, 50);
-        fill(0);
-        textAlign(CENTER, CENTER);
-        textSize(20);
-        text("Backward", 400, 825);
-       break;
-       case QUERY_2:
-         println("Drawing Graph");
-         break;
     }
   }
 
@@ -61,7 +31,7 @@ class Render {
   void drawBusiestAirports() {
   if (data == null) return; // Add this line to guard against null data
 
-  HashMap<String, Integer> airportCounts = new HashMap<>();
+  HashMap<String, Integer> airportCounts = new HashMap<>(data.length);
   for (String line : data) {
     String[] parts = line.split(",");
     String airportName = parts[3].trim(); // Adjust the index according to your data structure
@@ -75,7 +45,7 @@ class Render {
   sortedEntries = sortedEntries.subList(0, Math.min(20, sortedEntries.size())); // Top 10 or fewer
 
   float x = 50; // Starting x position for the first bar
-  float y = height - 170; // y position, leaving space for text
+  float y = height - 250; // y position, leaving space for text
   float barWidth = (width - 100) / sortedEntries.size() - 10; // Dynamically calculate bar width
   float maxBarHeight = 300; // Maximum bar height
   int maxCount = sortedEntries.get(0).getValue(); // Highest value for scaling

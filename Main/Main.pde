@@ -1,4 +1,3 @@
-
 String[] lines;
 PFont stdFont;
 Widget widget1, widget2, widget3, widget4;
@@ -12,11 +11,12 @@ size(SCREENX, SCREENY);
 
 
 void setup() {                                    // reads data and converts to bytes, to string, then printData method is initialised.
-  byte[] fileBytes = loadBytes("flights2k.csv");    
-  String fileContent = new String(fileBytes);
-  lines = split(fileContent, "\n");
-  printData();
-  
+  lines = loadStrings("flights2k.csv"); // Load data from file into an array of strings
+  Flights[] flights = new Flights[lines.length]; //// Create an array of Flights objects
+  for (int i = 1; i < lines.length; i++) {
+    String[] data = lines[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+    flights[i] = new Flights(data);
+  }
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
   
@@ -41,7 +41,12 @@ void setup() {                                    // reads data and converts to 
   // This is for the screens class
   backgroundImage = loadImage("background.jpg");
   backgroundImage.resize(width, height);
-
+  
+  for (Flights flight : flights) { // could be removed, print out all flight objects and its info
+    if (flight != null) {
+      flight.printFlight();
+    }
+  }
 }
 
 void draw() {  
@@ -50,14 +55,7 @@ void draw() {
   //if(currentScreen==screen2){
    // currentRender.drawBusiestAirports();
   }
-//}
 
-void printData() {
-  // This loops through every line and prints it until last one is read.
-  for (String line : lines) {
-    println(line);
-  }
-}
 
 void mousePressed(){
   switch(currentScreen.getEvent(mouseX, mouseY)) {
