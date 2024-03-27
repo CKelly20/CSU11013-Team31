@@ -24,6 +24,10 @@ class Render {
     switch(query){
       case QUERY_1:
         drawBusiestAirports();
+        break;
+       case QUERY_2:
+       cancellationChart.draw();
+       break;
     }
   }
 

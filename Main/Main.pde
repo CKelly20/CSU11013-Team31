@@ -3,7 +3,11 @@ PFont stdFont;
 Widget widget1, widget2, widget3, widget4;
 Screen currentScreen,screen1, screen2;
 Render currentRender;
-Flights[] flights;
+Flights[] flights;                  // Array containing all our Flights.
+
+String[] cancelledStates;                  // Handles Query 2
+float[]  cancellationCount;
+aBarChart  cancellationChart;
 
 
 void settings(){
@@ -21,7 +25,7 @@ void setup() {                                    // reads data and converts to 
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
   
-  widget1 = new Widget(380, 280, 200, 40, "Button 1", color(125, 150, 200),
+  widget1 = new Widget(380, 280, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
   widget2 = new Widget(380, 280, 200, 40, "Button 2", color(100, 155, 150),        //Has no use. Can be repurposed as Query button!
          stdFont, EVENT_BUTTON2); 
@@ -41,20 +45,25 @@ void setup() {                                    // reads data and converts to 
   
   // This is for the screens class
   backgroundImage = loadImage("background.jpg");
-  backgroundImage.resize(width, height); //<>//
+  backgroundImage.resize(width, height);
   
   //for (Flights flight : flights) { // could be removed, print out all flight objects and its info
    // if (flight != null) {
   //    flight.printFlight();
  //   }
  // }
+ 
+  cancelledStates = topCancelledOriginStates(flights);                    // Find the data then create the chart for Query 2
+  cancellationCount =  getAmountCancelled(flights,cancelledStates);
+  BarChart barChart = new BarChart(this);                               
+  cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "States", "No. of flights cancelled");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel)
+
+         
 }
 
 void draw() {  
   currentScreen.draw(); //<>//
   currentRender.draw();
-  //if(currentScreen==screen2){
-   // currentRender.drawBusiestAirports();
   }
 
 
