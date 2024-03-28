@@ -1,0 +1,32 @@
+class DateInputWidget extends Widget {
+  DateInputWidget(int x, int y, int width, int height, String label, color widgetColor, PFont widgetFont, int event) {
+    super(x, y, width, height, label, widgetColor, widgetFont, event);
+  }
+
+ 
+  
+  void draw() {
+    super.draw(); // Call the draw method of the parent class to draw the basic parts
+
+    // If the current input widget is in editing mode, display the cursor
+    if (editingWidget == this) {
+      drawCursor();
+    }
+  }
+
+ 
+  void drawCursor() {
+    fill(0); 
+    float cursorX = x + textWidth(label) + 12; // Cursor's x position is just after the text
+    float cursorY = y + height - 10; // Cursor's y position is slightly above the bottom of the input box
+    line(cursorX, cursorY, cursorX, cursorY - 30); // Draw a vertical line as the cursor
+  }
+}
+
+
+//widget7 = new DateInputWidget(200, 200, 200, 40, "Start Date", color(255), stdFont, EVENT_NULL); 
+//widget8 = new DateInputWidget(200, 300, 200, 40, "End Date", color(255), stdFont, EVENT_NULL); 
+
+
+//screen3.addWidget(widget6, widget7, widget8, widget9);
+
