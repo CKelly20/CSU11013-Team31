@@ -79,6 +79,7 @@ void mousePressed(){
      println("button 2!");
      currentRender.query= QUERY_3;
      currentScreen = screen2;
+     currentRender.data= lines;
      break;
     case EVENT_FORWARD:              //Button for Query 1
       println("Query One");
