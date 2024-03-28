@@ -104,10 +104,10 @@ void drawShortestFlightDurations() {
   float barWidth = 200;
   float maxDuration = top5FlightDurations.get(0).duration;
   float scaleFactor = 200 / maxDuration; // Scale factor for bar heights
-  
+  noStroke();
   fill(255);
   textSize(20);
-  textAlign(CENTER, BOTTOM);
+  //textAlign(CENTER, BOTTOM);
   text("Top 5  shortest Durations", width / 2, 50);
   
   for (int i = 0; i < top5FlightDurations.size(); i++) {
@@ -121,12 +121,12 @@ void drawShortestFlightDurations() {
     
     // Display airport name below the bar
     fill(0);
-    textAlign(LEFT, BOTTOM);
+    //textAlign(LEFT, BOTTOM);
     text(airportName, startX, startY + i * 80 + 70);
     
     // Display duration above the bar
     fill(0);
-    textAlign(RIGHT, BOTTOM);
+    //textAlign(RIGHT, BOTTOM);
     text(String.format("%.2f", duration) + " hours", startX + duration * scaleFactor, startY + i * 80 + 45);
   }
 }
