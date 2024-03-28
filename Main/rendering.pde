@@ -117,10 +117,6 @@ void drawShortestFlightDurations() {
   noStroke();
   fill(255);
   textSize(20);
-<<<<<<< HEAD
-=======
-  //textAlign(CENTER, BOTTOM);
->>>>>>> 65af667893bcc5b6c7dc97b65c36d1dc26e038a5
   text("Top 5  shortest Durations", width / 2, 50);
   
   for (int i = 0; i < top5FlightDurations.size(); i++) {
@@ -134,18 +130,10 @@ void drawShortestFlightDurations() {
     
     // Display airport name below the bar
     fill(0);
-<<<<<<< HEAD
-=======
-    //textAlign(LEFT, BOTTOM);
->>>>>>> 65af667893bcc5b6c7dc97b65c36d1dc26e038a5
     text(airportName, startX, startY + i * 80 + 70);
     
     // Display duration above the bar
     fill(0);
-<<<<<<< HEAD
-=======
-    //textAlign(RIGHT, BOTTOM);
->>>>>>> 65af667893bcc5b6c7dc97b65c36d1dc26e038a5
     text(String.format("%.2f", duration) + " hours", startX + duration * scaleFactor, startY + i * 80 + 45);
   }
 }
