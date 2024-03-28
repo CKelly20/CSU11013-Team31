@@ -61,12 +61,12 @@ class Render {
   int maxCount = sortedEntries.get(0).getValue(); // Highest value for scaling
   
   textSize(12);
-  textAlign(CENTER, BOTTOM);
 
   for (int i = 0; i < sortedEntries.size(); i++) {
     Entry<String, Integer> entry = sortedEntries.get(i);
     fill(100, 100, 250); // Bar color
     float scaledHeight = (entry.getValue().floatValue() / maxCount) * maxBarHeight; // Scale height based on max value
+    noStroke();
     rect(x + (barWidth + 10) * i, y - scaledHeight, barWidth, scaledHeight);
     fill(0);
     text(entry.getKey(), x + (barWidth + 10) * i + barWidth / 2, y + 20); // Display the airport name below the bar, adjusting position for readability
