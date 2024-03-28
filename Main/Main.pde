@@ -75,8 +75,10 @@ void mousePressed(){
      currentRender.query= QUERY_2;
      currentScreen = screen2;
      break;
-   case EVENT_BUTTON2:        //Does nothing ATM
+   case EVENT_BUTTON2:        //Button for Query 3
      println("button 2!");
+     currentRender.query= QUERY_3;
+     currentScreen = screen2;
      break;
     case EVENT_FORWARD:              //Button for Query 1
       println("Query One");
