@@ -8,3 +8,4 @@ final int EVENT_NULL=0;
 final int QUERY_NULL=0;
 final int QUERY_1=1;
 final int QUERY_2=2;
+final int QUERY_3=3;
