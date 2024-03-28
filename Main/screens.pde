@@ -37,7 +37,8 @@ class Screen{
    
    if(screenTracker==1){                //If on main screen draw image and our Heading 
    image(backgroundImage, 0, 0);
-   textSize(128);      //Heading
+   boldFont = createFont("Arial Bold", 100);
+   textFont(boldFont);
    fill(255);
    text("Flight Tracker", 165, 180);
    }  

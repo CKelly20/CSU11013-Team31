@@ -58,7 +58,6 @@ class Render {
   int maxCount = sortedEntries.get(0).getValue(); // Highest value for scaling
   
   textSize(12);
-  textAlign(CENTER, BOTTOM);
 
   for (int i = 0; i < sortedEntries.size(); i++) {
     Entry<String, Integer> entry = sortedEntries.get(i);
@@ -73,6 +72,7 @@ class Render {
     text(entry.getValue(), x + (barWidth + 10) * i + barWidth / 2, y - scaledHeight - 5);
   }
 }
+
 void drawLongestFlightDurations() {
     float longestDuration = 0;
     for (String line : data) {
