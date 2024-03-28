@@ -28,6 +28,9 @@ class Render {
        case QUERY_2:
        cancellationChart.draw();
        break;
+       case QUERY_3:
+        drawLongestFlightDurations(); // Draw the bar chart for the third query
+        break;
     }
   }
 
@@ -70,6 +73,34 @@ class Render {
     text(entry.getValue(), x + (barWidth + 10) * i + barWidth / 2, y - scaledHeight - 5);
   }
 }
+void drawLongestFlightDurations() {
+    float longestDuration = 0;
+    for (String line : data) {
+      String[] parts = line.split(","); // Split the line by comma
+      int depTime = int(parts[12]); // Get departure time 
+      int arrTime = int(parts[14]); // Get arrival time 
+      float duration = (arrTime - depTime) / 60.0; // Calculate duration in minutes
+      longestDuration = max(longestDuration, duration); // Update longest duration if necessary
+    }
+    
+    // Draw the bar chart for the longest flight duration
+    fill(255);
+    textSize(20);
+    textAlign(CENTER, BOTTOM);
+    text("Longest Flight Durations", width / 2, 50);
+
+    float barHeight = 30;
+    float startX = 200;
+    float startY = 100;
+    float barWidth = longestDuration * 5; // Scale the bar width based on the longest duration
+
+    fill(0, 0, 255);
+    rect(startX, startY, barWidth, barHeight);
+
+    fill(0);
+    textAlign(LEFT, BOTTOM);
+    text("Longest Duration: " + nf(longestDuration, 0, 2) + " minutes", startX + barWidth + 10, startY + barHeight);
+  }
 }
 
   
