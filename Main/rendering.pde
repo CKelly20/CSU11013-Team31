@@ -75,6 +75,16 @@ class Render {
     fill(50);
     text(entry.getValue(), x + (barWidth + 10) * i + barWidth / 2, y - scaledHeight - 5);
   }
+  
+  boldFont = createFont("Arial Bold", 70);
+  textFont(boldFont);
+  fill(255);
+  text("Busiest Airports", 275, 100);
+  
+  boldFont = createFont("Arial Bold", 30);
+  textFont(boldFont);
+  fill(0);
+  text("Airports", 450, 500);
 }
 void drawShortestFlightDurations() {
   // Create a list to store flight durations
@@ -107,7 +117,6 @@ void drawShortestFlightDurations() {
   
   fill(255);
   textSize(20);
-  textAlign(CENTER, BOTTOM);
   text("Top 5  shortest Durations", width / 2, 50);
   
   for (int i = 0; i < top5FlightDurations.size(); i++) {
@@ -121,12 +130,10 @@ void drawShortestFlightDurations() {
     
     // Display airport name below the bar
     fill(0);
-    textAlign(LEFT, BOTTOM);
     text(airportName, startX, startY + i * 80 + 70);
     
     // Display duration above the bar
     fill(0);
-    textAlign(RIGHT, BOTTOM);
     text(String.format("%.2f", duration) + " hours", startX + duration * scaleFactor, startY + i * 80 + 45);
   }
 }
