@@ -2,6 +2,9 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.List;
 import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 class Render {
   int query;
@@ -29,7 +32,7 @@ class Render {
        cancellationChart.draw();
        break;
        case QUERY_3:
-        drawLongestFlightDurations(); // Draw the bar chart for the third query
+        drawShortestFlightDurations(); // Draw the bar chart for the third query
         break;
     }
   }
@@ -58,6 +61,7 @@ class Render {
   int maxCount = sortedEntries.get(0).getValue(); // Highest value for scaling
   
   textSize(12);
+  textAlign(CENTER, BOTTOM);
 
   for (int i = 0; i < sortedEntries.size(); i++) {
     Entry<String, Integer> entry = sortedEntries.get(i);
@@ -72,35 +76,59 @@ class Render {
     text(entry.getValue(), x + (barWidth + 10) * i + barWidth / 2, y - scaledHeight - 5);
   }
 }
-
-void drawLongestFlightDurations() {
-    float longestDuration = 0;
-    for (String line : data) {
+void drawShortestFlightDurations() {
+  // Create a list to store flight durations
+  ArrayList<FlightDuration> flightDurations = new ArrayList<>();
+      
+ for (int i = 1; i < data.length; i++) {
+      String line = data[i];
       String[] parts = line.split(","); // Split the line by comma
-      int depTime = int(parts[12]); // Get departure time 
-      int arrTime = int(parts[14]); // Get arrival time 
-      float duration = (arrTime - depTime) / 60.0; // Calculate duration in minutes
-      longestDuration = max(longestDuration, duration); // Update longest duration if necessary
+      int depTime = Integer.parseInt(parts[13]); // Get departure time 
+      int arrTime = Integer.parseInt(parts[15]); // Get arrival time 
+      float duration = (arrTime - depTime) /600; // Calculate duration in hours
+      String airportName = parts[4].trim(); // Get origin airport name
+      String destAirportName= parts[9].trim();
+      
+      // Add flight duration to the list
+      flightDurations.add(new FlightDuration(airportName, duration));
     }
+  // Sort flight durations by duration in descending order
+  Collections.sort(flightDurations, Collections.reverseOrder());
+  
+  // Select the top 5 longest flight durations
+  List<FlightDuration> top5FlightDurations = flightDurations.subList(0, Math.min(5, flightDurations.size()));
+  
+  // Draw the bar chart for the top 5 longest flight durations
+  float startX = 200;
+  float startY = 100;
+  float barWidth = 200;
+  float maxDuration = top5FlightDurations.get(0).duration;
+  float scaleFactor = 200 / maxDuration; // Scale factor for bar heights
+  
+  fill(255);
+  textSize(20);
+  textAlign(CENTER, BOTTOM);
+  text("Top 5 Longest shortest Durations", width / 2, 50);
+  
+  for (int i = 0; i < top5FlightDurations.size(); i++) {
+    FlightDuration flightDuration = top5FlightDurations.get(i);
+    String airportName = flightDuration.airportName;
+    float duration = flightDuration.duration;
     
-    // Draw the bar chart for the longest flight duration
-    fill(255);
-    textSize(20);
-    textAlign(CENTER, BOTTOM);
-    text("Longest Flight Durations", width / 2, 50);
-
-    float barHeight = 30;
-    float startX = 200;
-    float startY = 100;
-    float barWidth = longestDuration * 5; // Scale the bar width based on the longest duration
-
+    // Draw the bar for each flight duration
     fill(0, 0, 255);
-    rect(startX, startY, barWidth, barHeight);
-
+    rect(startX, startY + i * 80, duration * scaleFactor, 50);
+    
+    // Display airport name below the bar
     fill(0);
     textAlign(LEFT, BOTTOM);
-    text("Longest Duration: " + nf(longestDuration, 0, 2) + " minutes", startX + barWidth + 10, startY + barHeight);
+    text(airportName, startX, startY + i * 80 + 70);
+    
+    // Display duration above the bar
+    fill(0);
+    textAlign(RIGHT, BOTTOM);
+    text(String.format("%.2f", duration) + " hours", startX + duration * scaleFactor, startY + i * 80 + 45);
   }
 }
-
+}
   
