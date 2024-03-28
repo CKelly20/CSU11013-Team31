@@ -27,7 +27,7 @@ void setup() {                                    // reads data and converts to 
   
    widget1 = new Widget(380, 280, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
-  widget2 = new Widget(380, 200, 200, 40, "Longest Flight Durations", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
+  widget2 = new Widget(380, 200, 200, 40, "shortest flights", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
          stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(380, 380, 200, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
