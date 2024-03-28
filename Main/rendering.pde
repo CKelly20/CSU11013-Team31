@@ -108,7 +108,7 @@ void drawShortestFlightDurations() {
   fill(255);
   textSize(20);
   textAlign(CENTER, BOTTOM);
-  text("Top 5 Longest shortest Durations", width / 2, 50);
+  text("Top 5  shortest Durations", width / 2, 50);
   
   for (int i = 0; i < top5FlightDurations.size(); i++) {
     FlightDuration flightDuration = top5FlightDurations.get(i);
