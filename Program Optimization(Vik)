@@ -1,0 +1,299 @@
+import java.util.ArrayList;
+
+final int SCREENX = 1000;   
+final int SCREENY = 700;
+final int EVENT_BUTTON1 = 1;
+final int EVENT_FORWARD = 2;
+final int EVENT_BUTTON2 = 3;
+final int EVENT_BACKWARD = 4;
+final int EVENT_NULL = 0;
+final int QUERY_NULL = 0;
+final int QUERY_1 = 1;
+final int QUERY_2 = 2;
+final int EVENT_BUTTON3 = 5; 
+final int EVENT_RETURN = 6;  
+final int EVENT_START_FILTER = 7; 
+
+String[] lines;
+PFont stdFont;
+Widget widget1, widget2, widget3, widget4, widget5, widget6, widget7, widget8, widget9; // 添加了widget5和widget6
+Screen currentScreen, screen1, screen2, screen3; 
+Render currentRender;
+Flights[] flights;
+PImage backgroundImage;
+
+
+Widget editingWidget = null;
+
+void settings() {
+  size(SCREENX, SCREENY);
+}
+
+void setup() {
+  lines = loadStrings("flights2k.csv");
+  flights = new Flights[lines.length];
+  for (int i = 1; i < lines.length; i++) {
+    String[] data = lines[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+    flights[i] = new Flights(data);
+  }
+  stdFont = createFont("Candara-Italic", 30);
+  textFont(stdFont);
+  
+  widget1 = new Widget(380, 280, 400, 40, "Leading States in cancellations.", color(125, 150, 200), stdFont, EVENT_BUTTON1);
+  widget2 = new Widget(380, 280, 200, 40, "Button 2", color(100, 155, 150), stdFont, EVENT_BUTTON2); 
+  widget3 = new Widget(380, 380, 200, 40, "Busiest Airports", color(125, 150, 200), stdFont, EVENT_FORWARD); 
+  widget4 = new Widget(50, 610, 200, 40, "Return", color(100, 155, 150), stdFont, EVENT_BACKWARD);
+  widget5 = new Widget(200, 100, 200, 40, "Filter by Date", color(125, 150, 200), stdFont, EVENT_BUTTON3); // 添加新按钮
+  widget6 = new Widget(50, 610, 200, 40, "Return", color(100, 155, 150), stdFont, EVENT_RETURN); // 添加返回按钮
+  widget7 = new Widget(200, 200, 200, 40, "Start Date", color(255), stdFont, EVENT_NULL); // 开始日期输入框
+  widget8 = new Widget(200, 300, 200, 40, "End Date", color(255), stdFont, EVENT_NULL); // 结束日期输入框
+  widget9 = new Widget(200, 400, 200, 40, "Start Filter", color(125, 150, 200), stdFont, EVENT_START_FILTER); // 新增开始过滤按钮
+  
+  screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
+  screen2 = new Screen(color(200,225,204), new ArrayList<Widget>(), 2);
+  screen3 = new Screen(color(200,225,204), new ArrayList<Widget>(), 3); 
+  screen1.addWidget(widget1, widget3);
+  screen2.addWidget(widget4, widget5); 
+  screen3.addWidget(widget6, widget7, widget8, widget9); 
+  currentScreen = screen1;
+
+  currentRender = new Render(QUERY_NULL, null);
+
+  // Load background image
+  backgroundImage = loadImage("background.jpg");
+  backgroundImage.resize(width, height);
+}
+
+void draw() {  
+  currentScreen.draw();
+  currentRender.draw();
+}
+
+void mousePressed(){
+  switch(currentScreen.getEvent(mouseX, mouseY)) {
+    case EVENT_BUTTON1:              
+      println("button 1!");
+      currentRender.query= QUERY_2;
+      currentScreen = screen2;
+      break;
+    case EVENT_BUTTON2:        
+      println("button 2!");
+      break;
+    case EVENT_FORWARD:              
+      println("Query One");
+      currentScreen = screen2;
+      currentRender.query= QUERY_1;
+      currentRender.data = lines;
+      break;
+    case EVENT_BACKWARD:                  
+      println("backward");
+      currentScreen = screen1;
+      currentRender.query= QUERY_NULL;
+      break;
+    case EVENT_BUTTON3: 
+      println("Filter by Date button!");
+      currentScreen = screen3; 
+      break;
+    case EVENT_RETURN: 
+      println("Return button!");
+      if (currentScreen == screen2) {
+        currentScreen = screen1;
+      } else if (currentScreen == screen3) {
+        currentScreen = screen2; 
+      }
+      break;
+    case EVENT_START_FILTER: 
+      println("Start Filter button!");
+    
+      break;
+    case EVENT_NULL: 
+      if (currentScreen == screen3) {
+       
+        if (mouseX > widget7.x && mouseX < widget7.x + widget7.width && mouseY > widget7.y && mouseY < widget7.y + widget7.height) {
+          editingWidget = widget7;
+        } else if (mouseX > widget8.x && mouseX < widget8.x + widget8.width && mouseY > widget8.y && mouseY < widget8.y + widget8.height) {
+          editingWidget = widget8;
+        }
+      }
+      break;
+  } 
+}
+
+void keyTyped() {
+  if (editingWidget != null) {
+    if (key == BACKSPACE && editingWidget.label.length() > 0) {
+     
+      editingWidget.label = editingWidget.label.substring(0, editingWidget.label.length() - 1);
+    } else if (key >= '0' && key <= '9' && editingWidget.label.length() < 10) {
+     
+      editingWidget.label += key;
+    }
+  }
+}
+
+void mouseMoved(){
+  int event;
+  ArrayList<Widget> widgetList = currentScreen.getWidgets();
+  for(int i = 0; i<widgetList.size(); i++){
+    Widget aWidget = widgetList.get(i);
+    event = aWidget.getEvent(mouseX,mouseY);
+    if(event != EVENT_NULL){
+      aWidget.mouseOver();
+    } else {
+      aWidget.mouseNotOver();  
+    }
+  }
+}
+
+class Flights { 
+  String flightDate;
+  String mktCarrier;
+  int mktFlightNum;
+  String origin;
+  String originCityName;
+  String originState;
+  int originWac;
+  String destination;
+  String destCityName;
+  String destState;
+  int destWac;
+  int crsDepTime;
+  int depTime;
+  int crsArrTime;
+  int arrTime;
+  boolean cancelled;
+  boolean diverted;
+  int distance;
+ 
+  Flights(String[] data) {
+    flightDate = data[0];
+    mktCarrier = data[1];
+    mktFlightNum = int(data[2]);
+    origin = data[3];
+    originCityName = data[4];
+    originState = data[5];
+    originWac = int(data[6]);
+    destination = data[7];
+    destCityName = data[8];
+    destState = data[9];
+    destWac = int(data[10]);
+    crsDepTime = int(data[11]);
+    depTime = int(data[12]);
+    crsArrTime = int(data[13]);
+    arrTime = int(data[14]);
+    cancelled = data[15].equals("1");
+    diverted = data[16].equals("1");
+    distance = int(data[17]);
+  }
+}
+
+class Screen {
+  color background;
+  ArrayList<Widget> screenWidgets;
+  int event;
+  int screenTracker;
+
+  Screen(color background, ArrayList<Widget> widgets, int screenTracker) {
+    this.background = background;
+    this.screenWidgets = widgets;
+    this.screenTracker = screenTracker;
+  }
+
+  void addWidget(Widget... widgets) {
+    for (Widget widget : widgets) {
+      screenWidgets.add(widget);
+    }
+  }
+
+  int getEvent(int mX, int mY) {
+    for (int i = 0; i < screenWidgets.size(); i++) {
+      Widget aWidget = screenWidgets.get(i);
+      if (mX > aWidget.x && mX < aWidget.x + aWidget.width && mY > aWidget.y && mY < aWidget.y + aWidget.height) {
+        return aWidget.event;
+      }
+    }
+    return EVENT_NULL;
+  }
+
+  void draw() {
+    background(background);
+    if (screenTracker == 1) {                
+      image(backgroundImage, 0, 0);
+      textSize(128);     
+      fill(255);
+      text("Flight Tracker", 165, 180);
+    }  
+    for (int i = 0; i < screenWidgets.size(); i++) {
+      screenWidgets.get(i).draw();
+    } 
+  }
+
+  ArrayList<Widget> getWidgets() {
+    return screenWidgets;
+  }
+}
+
+class Widget {
+  int x, y, width, height;
+  String label; 
+  int event;
+  color widgetColor, labelColor;
+
+  Widget(int x,int y, int width, int height, String label, color widgetColor, PFont widgetFont, int event) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.label = label;
+    this.event = event; 
+    this.widgetColor = widgetColor; 
+    this.labelColor = color(0);
+  }
+
+  void draw() {
+    fill(widgetColor);
+    stroke(labelColor, 150);
+    strokeWeight(5);
+    rect(x, y, width, height);
+    fill(labelColor);
+    textFont(stdFont);
+    text(label, x + 10, y + height - 10);
+    
+    
+    if (event == EVENT_NULL) {
+      textAlign(LEFT, BOTTOM);
+      fill(0); 
+      String prompt = "Please enter the date:";
+      text(prompt, x + 10, y - 10);
+    }
+  }
+
+  int getEvent(int mX, int mY) {
+    if (mX > x && mX < x + width && mY > y && mY < y + height) { 
+      return event;
+    } 
+    return EVENT_NULL;
+  }
+
+  void mouseOver() {
+    labelColor = color(255, 0, 0);
+  }
+
+  void mouseNotOver() {
+    labelColor = color(0);
+  }
+}
+
+class Render {
+  int query;
+  String[] data;
+
+  Render(int query, String[] data) {
+    this.query = query;
+    this.data = data;
+  }
+
+  void draw() {
+    // Add rendering logic based on query and data here
+  }
+}
