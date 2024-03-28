@@ -16,7 +16,7 @@ final int EVENT_START_FILTER = 7;
 
 String[] lines;
 PFont stdFont;
-Widget widget1, widget2, widget3, widget4, widget5, widget6, widget7, widget8, widget9; // 添加了widget5和widget6
+Widget widget1, widget2, widget3, widget4, widget5, widget6, widget7, widget8, widget9; 
 Screen currentScreen, screen1, screen2, screen3; 
 Render currentRender;
 Flights[] flights;
@@ -43,11 +43,11 @@ void setup() {
   widget2 = new Widget(380, 280, 200, 40, "Button 2", color(100, 155, 150), stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(380, 380, 200, 40, "Busiest Airports", color(125, 150, 200), stdFont, EVENT_FORWARD); 
   widget4 = new Widget(50, 610, 200, 40, "Return", color(100, 155, 150), stdFont, EVENT_BACKWARD);
-  widget5 = new Widget(200, 100, 200, 40, "Filter by Date", color(125, 150, 200), stdFont, EVENT_BUTTON3); // 添加新按钮
-  widget6 = new Widget(50, 610, 200, 40, "Return", color(100, 155, 150), stdFont, EVENT_RETURN); // 添加返回按钮
-  widget7 = new Widget(200, 200, 200, 40, "Start Date", color(255), stdFont, EVENT_NULL); // 开始日期输入框
-  widget8 = new Widget(200, 300, 200, 40, "End Date", color(255), stdFont, EVENT_NULL); // 结束日期输入框
-  widget9 = new Widget(200, 400, 200, 40, "Start Filter", color(125, 150, 200), stdFont, EVENT_START_FILTER); // 新增开始过滤按钮
+  widget5 = new Widget(200, 100, 200, 40, "Filter by Date", color(125, 150, 200), stdFont, EVENT_BUTTON3); 
+  widget6 = new Widget(50, 610, 200, 40, "Return", color(100, 155, 150), stdFont, EVENT_RETURN);
+  widget7 = new Widget(200, 200, 200, 40, "Start Date", color(255), stdFont, EVENT_NULL); 
+  widget8 = new Widget(200, 300, 200, 40, "End Date", color(255), stdFont, EVENT_NULL); 
+  widget9 = new Widget(200, 400, 200, 40, "Start Filter", color(125, 150, 200), stdFont, EVENT_START_FILTER); 
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
   screen2 = new Screen(color(200,225,204), new ArrayList<Widget>(), 2);
