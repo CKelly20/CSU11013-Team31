@@ -25,9 +25,9 @@ void setup() {                                    // reads data and converts to 
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
   
-  widget1 = new Widget(380, 280, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
+   widget1 = new Widget(380, 280, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
-  widget2 = new Widget(380, 280, 200, 40, "Button 2", color(100, 155, 150),        //Has no use. Can be repurposed as Query button!
+  widget2 = new Widget(380, 200, 200, 40, "Longest Flight Durations", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
          stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(380, 380, 200, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
@@ -36,11 +36,13 @@ void setup() {                                    // reads data and converts to 
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
   screen2 = new Screen(color(200,225,204), new ArrayList<Widget>(), 2);
-  screen1.addWidget(widget1, widget3);
+  screen1.addWidget(widget1, widget2);
+  screen1.addWidget(widget3);
   screen2.addWidget(widget4);  
   currentScreen = screen1;
-
   currentRender = new Render (QUERY_NULL, null);    //Setting up a render object 
+
+  
 
   
   // This is for the screens class
