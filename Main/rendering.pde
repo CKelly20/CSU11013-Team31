@@ -45,8 +45,11 @@ class Render {
   for (String line : data) {
     String[] parts = line.split(",");
     String airportName = parts[3].trim(); // Adjust the index according to your data structure
+    String arrivalAirport = parts[8].trim();
     airportCounts.put(airportName, airportCounts.getOrDefault(airportName, 0) + 1);
+    airportCounts.put(arrivalAirport, airportCounts.getOrDefault(arrivalAirport, 0) + 1);
   }
+
   
 
   // Limit to top 10 airports
@@ -60,7 +63,19 @@ class Render {
   float maxBarHeight = 300; // Maximum bar height
   int maxCount = sortedEntries.get(0).getValue(); // Highest value for scaling
   
-  textSize(12);
+  textSize(14);
+  
+  pushMatrix();
+  translate(25, height - 400); // Adjust position if needed
+  rotate(-HALF_PI); // Rotate by -90 degrees (counter-clockwise)
+  boldFont = createFont("Arial Bold", 30);
+  textFont(boldFont);
+  fill(0);
+  textSize(30);
+  text("Number of Flights", -150, 0);
+  textSize(14);
+  popMatrix();
+
 
   for (int i = 0; i < sortedEntries.size(); i++) {
     Entry<String, Integer> entry = sortedEntries.get(i);
