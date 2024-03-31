@@ -1,5 +1,6 @@
 PFont boldFont;
 PImage backgroundImage;
+PImage logo;
 
 class Screen{
   color background;
@@ -37,11 +38,26 @@ class Screen{
    
    if(screenTracker==1){                //If on main screen draw image and our Heading 
    image(backgroundImage, 0, 0);
-   boldFont = createFont("Arial Bold", 100);
+   boldFont = createFont("Arial Bold", 50);
    textFont(boldFont);
-   fill(255);
-   text("Flight Tracker", 165, 180);
+   fill(0);
+   text("Flight Tracker", 70, 250);
+   logo.resize(100,0);
+   image(logo, 170,70);
+   }
+   
+   // the following is for the about us screen
+   if(screenTracker==3){                //If on main screen draw image and our Heading 
+   image(backgroundImage, 0, 0);
+   boldFont = createFont("Arial Bold", 50);
+   textFont(boldFont);
+   fill(0);
+   text("About Us", 120, 250);
+   logo.resize(100,0);
+   image(logo, 170,70);
    }  
+   
+   
    for(int i = 0; i < screenWidgets.size(); i++){
      screenWidgets.get(i).draw();
    } 

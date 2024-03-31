@@ -1,11 +1,7 @@
-// The Following is for the dropdown list
-import controlP5.*;
-ControlP5 cp5;
-
 String[] lines;
 PFont stdFont;
-Widget widget1, widget2, widget3, widget4;
-Screen currentScreen,screen1, screen2;
+Widget widget1, widget2, widget3, widget4, widget5;
+Screen currentScreen,screen1, screen2, screen3;
 Render currentRender;
 Flights[] flights;                  // Array containing all our Flights.
 
@@ -29,21 +25,25 @@ void setup() {                                    // reads data and converts to 
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
   
-   widget1 = new Widget(300, 260, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
+   widget1 = new Widget(30, 270, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
 
-  widget2 = new Widget(380, 320, 220, 40, "Shortest flights", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
+  widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
          stdFont, EVENT_BUTTON2); 
-  widget3 = new Widget(380, 380, 220, 40, "Busiest Airports", color(125, 150, 200),
+  widget3 = new Widget(110, 390, 220, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
-  widget4 = new Widget(50, 610, 200, 40, "Return", color(100, 155, 150),
+  widget4 = new Widget(40, 630, 200, 40, "Return", color(100, 155, 150),
           stdFont, EVENT_BACKWARD);
+  widget5 =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
+          stdFont, EVENT_BUTTON3);
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
-  screen2 = new Screen(color(200,225,204), new ArrayList<Widget>(), 2);
+  screen2 = new Screen(color(24,162,154), new ArrayList<Widget>(), 2);
+  screen3 = new Screen(color(24,162,154), new ArrayList<Widget>(), 3);
   screen1.addWidget(widget1, widget2);
-  screen1.addWidget(widget3);
-  screen2.addWidget(widget4);  
+  screen1.addWidget(widget3, widget5);
+  screen2.addWidget(widget4);
+  screen3.addWidget(widget4);
   currentScreen = screen1;
   currentRender = new Render (QUERY_NULL, null);    //Setting up a render object 
 
@@ -53,6 +53,7 @@ void setup() {                                    // reads data and converts to 
   // This is for the screens class
   backgroundImage = loadImage("background.jpg");
   backgroundImage.resize(width, height);
+  logo = loadImage("logo.png");
   
   //for (Flights flight : flights) { // could be removed, print out all flight objects and its info
    // if (flight != null) {
@@ -87,6 +88,10 @@ void mousePressed(){
      currentRender.query= QUERY_3;
      currentScreen = screen2;
      currentRender.data= lines;
+     break;
+     case EVENT_BUTTON3:        //Button for About
+     println("button 3!");
+     currentScreen = screen3;
      break;
     case EVENT_FORWARD:              //Button for Query 1
       println("Query One");
