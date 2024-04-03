@@ -1,10 +1,9 @@
 String[] lines;
 PFont stdFont;
-Widget widget1, widget2, widget3, widget4, widget5;
-Screen currentScreen,screen1, screen2, screen3;
+Widget widget1, widget2, widget3, widget4, widget5, widget6; 
+Screen currentScreen,screen1, screen2, screen3, screen4, screen5;
 Render currentRender;
 Flights[] flights;                  // Array containing all our Flights.
-
 String[] cancelledStates;                  // Handles Query 2
 float[]  cancellationCount;
 aBarChart  cancellationChart;
@@ -15,12 +14,77 @@ size(SCREENX, SCREENY);
 }
 
 
-void setup() {                                    // reads data and converts to bytes, to string, then printData method is initialised.
+void setup() {                                   // reads data and converts to bytes, to string, then printData method is initialised.
+  americaMap = loadShape("MapOfAmerica.svg"); // Load the map outline from the SVG file
+  americaMap.scale(0.9); // Scale the map to fit within the canvas
+  americaMap.translate(0, 0);
+  
+  stateDots = new HashMap<String, PVector>(); // Initialize the HashMap
+  flightsByState = new HashMap<String, ArrayList<Flights>>();
+  
+  stateDots.put("CA", new PVector(160, 280));
+  stateDots.put("TX", new PVector(480, 420));
+  stateDots.put("WA", new PVector(200, 80)); // Washington
+  stateDots.put("OR", new PVector(180, 140)); // Oregon
+  stateDots.put("NV", new PVector(210, 230)); // Nevada
+  stateDots.put("ID", new PVector(260, 160)); // Idaho
+  stateDots.put("MT", new PVector(330, 100)); // Montana
+  stateDots.put("WY", new PVector(370, 200)); // Wyoming
+  stateDots.put("UT", new PVector(300, 260)); // Utah
+  stateDots.put("CO", new PVector(380, 280)); // Colorado
+  stateDots.put("AZ", new PVector(270, 350)); // Arizona
+  stateDots.put("NM", new PVector(370, 370)); // New Mexico
+  stateDots.put("ND", new PVector(480, 110)); // North Dakota
+  stateDots.put("SD", new PVector(480, 180)); // South Dakota
+  stateDots.put("NE", new PVector(480, 230)); // Nebraska
+  stateDots.put("KS", new PVector(500, 290)); // Kansas
+  stateDots.put("OK", new PVector(520, 350)); // Oklahoma
+  stateDots.put("MN", new PVector(560, 140)); // Minnesota
+  stateDots.put("IA", new PVector(570, 220)); // Iowa
+  stateDots.put("MO", new PVector(590, 280)); // Missouri
+  stateDots.put("AR", new PVector(590, 370)); // Arkansas
+  stateDots.put("LA", new PVector(595, 430)); // Louisiana
+  stateDots.put("WI", new PVector(620, 160)); // Wisconsin
+  stateDots.put("IL", new PVector(630, 260)); // Illinois
+  stateDots.put("IN", new PVector(690, 250)); // Indiana
+  stateDots.put("MI", new PVector(700, 170)); // Michigan
+  stateDots.put("OH", new PVector(740, 240)); // Ohio
+  stateDots.put("KY", new PVector(720, 300)); // Kentucky
+  stateDots.put("WV", new PVector(780, 270)); // West Virginia
+  stateDots.put("PA", new PVector(810, 220)); // Pennsylvania
+  stateDots.put("NY", new PVector(840, 170)); // New York
+  stateDots.put("VT", new PVector(870, 140)); // Vermont
+  stateDots.put("NH", new PVector(900, 150)); // New Hampshire
+  stateDots.put("ME", new PVector(910, 90));  // Maine
+  stateDots.put("MA", new PVector(880, 170)); // Massachusetts
+  stateDots.put("CT", new PVector(885, 185)); // Connecticut
+  stateDots.put("RI", new PVector(900, 185)); // Rhode Island
+  stateDots.put("NJ", new PVector(865, 220)); // New Jersey
+  stateDots.put("DE", new PVector(860, 250)); // Delaware
+  stateDots.put("MD", new PVector(830, 250)); // Maryland
+  stateDots.put("VA", new PVector(805, 290)); // Virginia
+  stateDots.put("AL", new PVector(570, 440)); // Alabama
+  stateDots.put("MS", new PVector(540, 490)); // Mississippi
+  stateDots.put("NC", new PVector(810, 330)); // North Carolina
+  stateDots.put("SC", new PVector(790, 370)); // South Carolina
+  stateDots.put("GA", new PVector(750, 400)); // Georgia
+  stateDots.put("FL", new PVector(800, 490)); // Florida
+  stateDots.put("AL", new PVector(700, 400)); // Alabama
+  stateDots.put("MS", new PVector(650, 400)); // Mississippi
+  stateDots.put("TN", new PVector(680, 340)); // Tennessee
+  
   lines = loadStrings("flights2k.csv"); // Load data from file into an array of strings
   flights = new Flights[lines.length]; //// Create an array of Flights objects
+  
   for (int i = 1; i < lines.length; i++) {
     String[] data = lines[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
     flights[i] = new Flights(data);
+    Flights flight = flights[i];
+    String originState = flight.originState;
+    if (!flightsByState.containsKey(originState)) {
+      flightsByState.put(originState, new ArrayList<Flights>());
+    }
+    flightsByState.get(originState).add(flight);
   }
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
@@ -36,14 +100,20 @@ void setup() {                                    // reads data and converts to 
           stdFont, EVENT_BACKWARD);
   widget5 =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
           stdFont, EVENT_BUTTON3);
+  widget6 =  new Widget(110, 460, 220, 40, "Set Date Range", color(125, 150, 200),
+          stdFont, EVENT_BUTTON4);
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
   screen2 = new Screen(color(24,162,154), new ArrayList<Widget>(), 2);
   screen3 = new Screen(color(24,162,154), new ArrayList<Widget>(), 3);
+  screen4 = new Screen(color(24,162,154), new ArrayList<Widget>(),4);
+  screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
   screen1.addWidget(widget1, widget2);
   screen1.addWidget(widget3, widget5);
+  screen1.addWidget(widget6);
   screen2.addWidget(widget4);
   screen3.addWidget(widget4);
+  screen4.addWidget(widget4);
   currentScreen = screen1;
   currentRender = new Render (QUERY_NULL, null);    //Setting up a render object 
 
@@ -67,7 +137,9 @@ void setup() {                                    // reads data and converts to 
   cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "State", "No. of flights cancelled",
   "Top 5 States for flight Cancellations.");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
 
-         
+
+ startDate = getDate("Enter start date (DDMMYYYY):");
+ endDate = getDate("Enter end date (DDMMYYYY):");         
 }
 
 void draw() {  
@@ -93,6 +165,18 @@ void mousePressed(){
      println("button 3!");
      currentScreen = screen3;
      break;
+    case EVENT_BUTTON4:
+    println("button 4!");
+     println("button 4!");
+     boolean dateInputSuccessful = getDate(); // Ask for date only when "Set Date Range" button is pressed
+      if (dateInputSuccessful) {
+        currentScreen = screen4; // Switch screen only if date input was successful
+        currentRender.query= QUERY_4;
+        currentRender.data= lines;
+      }
+     break;
+     case FLIGHT_INFO_SCREEN:
+     currentScreen = screen5;
     case EVENT_FORWARD:              //Button for Query 1
       println("Query One");
       currentScreen = screen2;
@@ -104,6 +188,19 @@ void mousePressed(){
      currentRender.query= QUERY_NULL;
      break;
      } 
+     for (String state : stateDots.keySet()) {
+       PVector dotPos = stateDots.get(state); // Get the coordinates of the dot for the current state
+       // Check if the mouse is over the dot when pressed
+       if (dist(dotPos.x, dotPos.y, mouseX, mouseY) < 10) {
+         selectedState = state; // Set the selected state
+         return;
+       }
+     }
+  if (currentScreen == screen4) {
+    handleMapScreenClick();
+  } else if (currentScreen == screen5) {
+    handleFlightInfoScreenClick();
+  }
   }
 
 void mouseMoved(){      //Changes Colour of widgets outline when mouse hovers them
