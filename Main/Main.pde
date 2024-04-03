@@ -150,7 +150,7 @@ void draw() {
 
 void mousePressed(){
   switch(currentScreen.getEvent(mouseX, mouseY)) {
-   case EVENT_BUTTON1:              //Button for Query 2 
+   case EVENT_BUTTON1:              //Button for Query 2   ie, Cancelled Flights
      println("button 1!");
      currentRender.query= QUERY_2;
      currentScreen = screen2;
