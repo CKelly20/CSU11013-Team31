@@ -1,14 +1,13 @@
-String[] lines;
+String[] lines; //<>//
 PFont stdFont;
 Widget widget1, widget2, widget3, widget4;
 Screen currentScreen,screen1, screen2;
 Render currentRender;
-Flights[] flights;                  // Array containing all our Flights.
+Flights[] flights;    // Array containing all our Flights.
 
 String[] cancelledStates;                  // Handles Query 2
 float[]  cancellationCount;
 aBarChart  cancellationChart;
-
 
 void settings(){
 size(SCREENX, SCREENY);
@@ -62,11 +61,10 @@ void setup() {                                    // reads data and converts to 
   cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "State", "No. of flights cancelled",
   "Top 5 States for flight Cancellations.");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
 
-         
 }
 
 void draw() {  
-  currentScreen.draw(); //<>//
+  currentScreen.draw();
   currentRender.draw();
   }
 

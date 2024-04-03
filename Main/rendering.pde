@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 class Render {
   int query;
   String[] data;    
@@ -39,6 +40,7 @@ class Render {
 
   
   void drawBusiestAirports() {
+    
   if (data == null) return; // Add this line to guard against null data
 
   HashMap<String, Integer> airportCounts = new HashMap<>(data.length);
@@ -54,37 +56,42 @@ class Render {
   sortedEntries.sort(Entry.comparingByValue(Comparator.reverseOrder()));
   sortedEntries = sortedEntries.subList(0, Math.min(20, sortedEntries.size())); // Top 10 or fewer
 
-  float x = 50; // Starting x position for the first bar
-  float y = height - 250; // y position, leaving space for text
-  float barWidth = (width - 100) / sortedEntries.size() - 10; // Dynamically calculate bar width
+  float x = 170; // Starting x position for the first bar
+  float y = height - 150; // y position, leaving space for text
+  float barWidth = (width - 400) / sortedEntries.size() - 10; // Dynamically calculate bar width
   float maxBarHeight = 300; // Maximum bar height
   int maxCount = sortedEntries.get(0).getValue(); // Highest value for scaling
+  
+  int animationDuration = 120; // Total frames for the animation to complete
+  float animationProgress = constrain(frameCount / (float)animationDuration, 0, 1);
   
   textSize(12);
 
   for (int i = 0; i < sortedEntries.size(); i++) {
     Entry<String, Integer> entry = sortedEntries.get(i);
     fill(100, 100, 250); // Bar color
-    float scaledHeight = (entry.getValue().floatValue() / maxCount) * maxBarHeight; // Scale height based on max value
-    noStroke();
-    rect(x + (barWidth + 10) * i, y - scaledHeight, barWidth, scaledHeight);
+    float targetHeight = (entry.getValue().floatValue() / maxCount) * maxBarHeight; // Target height based on value
+    float animatedHeight = targetHeight * animationProgress; // Apply animation progress
+    stroke(70);
+    rect(x + (barWidth + 10) * i, y - animatedHeight, barWidth, animatedHeight);
     fill(0);
     text(entry.getKey(), x + (barWidth + 10) * i + barWidth / 2, y + 20); // Display the airport name below the bar, adjusting position for readability
 
     // Display count next to each bar
     fill(50);
-    text(entry.getValue(), x + (barWidth + 10) * i + barWidth / 2, y - scaledHeight - 5);
+    text(entry.getValue(), x + (barWidth + 10) * i + barWidth / 2, y - animatedHeight - 5);
   }
   
   boldFont = createFont("Arial Bold", 70);
   textFont(boldFont);
-  fill(255);
-  text("Busiest Airports", 275, 100);
+  fill(0);
+  textSize(30);
+  text("Busiest Airports", 400, 50);
   
   boldFont = createFont("Arial Bold", 30);
   textFont(boldFont);
   fill(0);
-  text("Airports", 450, 500);
+  text("Airports", 450, 600);
 }
 void drawShortestFlightDurations() {
   // Create a list to store flight durations
@@ -117,10 +124,6 @@ void drawShortestFlightDurations() {
   noStroke();
   fill(255);
   textSize(20);
-<<<<<<< HEAD
-=======
-  //textAlign(CENTER, BOTTOM);
->>>>>>> 65af667893bcc5b6c7dc97b65c36d1dc26e038a5
   text("Top 5  shortest Durations", width / 2, 50);
   
   for (int i = 0; i < top5FlightDurations.size(); i++) {
@@ -134,18 +137,10 @@ void drawShortestFlightDurations() {
     
     // Display airport name below the bar
     fill(0);
-<<<<<<< HEAD
-=======
-    //textAlign(LEFT, BOTTOM);
->>>>>>> 65af667893bcc5b6c7dc97b65c36d1dc26e038a5
     text(airportName, startX, startY + i * 80 + 70);
     
     // Display duration above the bar
     fill(0);
-<<<<<<< HEAD
-=======
-    //textAlign(RIGHT, BOTTOM);
->>>>>>> 65af667893bcc5b6c7dc97b65c36d1dc26e038a5
     text(String.format("%.2f", duration) + " hours", startX + duration * scaleFactor, startY + i * 80 + 45);
   }
 }
