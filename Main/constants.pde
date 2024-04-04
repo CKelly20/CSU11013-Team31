@@ -14,3 +14,5 @@ final int QUERY_3=3;
 final int QUERY_4=4;
 final int MAP_SCREEN = 0;
 final int FLIGHT_INFO_SCREEN = 7;
+final int TRANSITIONSPEED = 10;
+float transitionProgress = 0.0; // Tracks transition progress from 0.0 to 1.0

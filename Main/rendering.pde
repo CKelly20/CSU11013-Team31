@@ -6,20 +6,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JOptionPane; 
-import java.util.HashMap;
 import java.util.Map;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 HashMap<String, Float> currentHeights = new HashMap<String, Float>();
 int animationStartFrame = 0; // Tracks the start frame of the animation
 boolean isAnimationReset = false; // Flag to check if animation has been reset
 float animationProgress = 0;
 float animationDuration = 120; 
-
-
-
 
 
 
@@ -58,6 +55,7 @@ class Render {
         break;
        case QUERY_2:
        cancellationChart.draw();
+       cp5.draw();
        break;
        case QUERY_3:
         drawShortestFlightDurations(); // Draw the bar chart for the third query
