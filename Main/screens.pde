@@ -46,6 +46,16 @@ class Screen{
    image(logo, 170,70);
    }
    
+   if(screenTracker!=1 || screenTracker != 3){                //If on main screen draw image and our Heading 
+   image(backgroundImage, 0, 0);
+   boldFont = createFont("Arial Bold", 50);
+   textFont(boldFont);
+   fill(0);
+   text("Flight Tracker", 70, 250);
+   logo.resize(100,0);
+   image(logo, 170,70);
+   }
+   
    // the following is for the about us screen
    if(screenTracker==3){                //If on main screen draw image and our Heading 
    image(backgroundImage, 0, 0);

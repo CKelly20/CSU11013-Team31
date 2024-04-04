@@ -1,6 +1,6 @@
 String[] lines;
 PFont stdFont;
-Widget widget1, widget2, widget3, widget4, widget5, widget6; 
+Widget widget1, widget2, widget3, widget4, widget5, dateButton; 
 Screen currentScreen,screen1, screen2, screen3, screen4, screen5;
 Render currentRender;
 Flights[] flights;                  // Array containing all our Flights.
@@ -89,9 +89,8 @@ void setup() {                                   // reads data and converts to b
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
   
-   widget1 = new Widget(30, 270, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
+  widget1 = new Widget(30, 450, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
-
   widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
          stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(110, 390, 220, 40, "Busiest Airports", color(125, 150, 200),
@@ -100,7 +99,7 @@ void setup() {                                   // reads data and converts to b
           stdFont, EVENT_BACKWARD);
   widget5 =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
           stdFont, EVENT_BUTTON3);
-  widget6 =  new Widget(110, 460, 220, 40, "Set Date Range", color(125, 150, 200),
+  dateButton =  new Widget(110, 270, 220, 40, "Set Date Range", color(125, 150, 200),
           stdFont, EVENT_BUTTON4);
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
@@ -110,7 +109,7 @@ void setup() {                                   // reads data and converts to b
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
   screen1.addWidget(widget1, widget2);
   screen1.addWidget(widget3, widget5);
-  screen1.addWidget(widget6);
+  screen1.addWidget(dateButton);
   screen2.addWidget(widget4);
   screen3.addWidget(widget4);
   screen4.addWidget(widget4);
@@ -138,14 +137,38 @@ void setup() {                                   // reads data and converts to b
   "Top 5 States for flight Cancellations.");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
 
 
- startDate = getDate("Enter start date (DDMMYYYY):");
- endDate = getDate("Enter end date (DDMMYYYY):");         
+ startDate = getDate("Enter start date (DD/MM/YYYY):");
+ endDate = getDate("Enter end date (DD/MM/yYYYY):");         
 }
 
-void draw() {  
-  currentScreen.draw(); //<>//
-  currentRender.draw();
+void draw() {
+  // Only increase transition progress if it's less than 1.0
+  if (transitionProgress < 1.0) {
+    transitionProgress += 0.04; // Adjust the value to control the animation speed
   }
+  
+  // Draw current screen
+  currentScreen.draw();
+  
+  // Draw next screen moving from left to right
+  pushMatrix();
+  translate(lerp(-width, 0, transitionProgress), 0);
+  screen1.draw();
+  popMatrix();
+  
+  // Draw next screen moving from off-screen into view
+  pushMatrix();
+  translate(lerp(-width, 0, transitionProgress), 0);
+  screen2.draw();
+  popMatrix();
+  
+  // Update current screen after transition is complete
+  if (transitionProgress >= 1.0) {
+    currentScreen = screen2;
+  }
+  
+  currentRender.draw();
+} //<>//
 
 
 void mousePressed(){
