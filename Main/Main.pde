@@ -114,7 +114,7 @@ void setup() {                                   // reads data and converts to b
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
   screen1.addWidget(widget1, widget2);
   screen1.addWidget(widget3, widget5);
-  screen1.addWidget(dateButton);
+  screen1.addWidget(widget6);
   screen2.addWidget(widget4);
   screen3.addWidget(widget4);
   screen4.addWidget(widget4);
