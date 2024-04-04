@@ -150,21 +150,12 @@ void draw() {
   // Draw current screen
   currentScreen.draw();
   currentRender.draw();
-<<<<<<< HEAD
 }
-=======
-} 
->>>>>>> 0772e5895d0c975291c1d39e9174b78012b723a3
-
 
 void mousePressed(){
   switch(currentScreen.getEvent(mouseX, mouseY)) {
-<<<<<<< HEAD
-   case EVENT_BUTTON1:              //Button for Query 2   ie, Cancelled Flights //<>//
-     println("button 1!");
-=======
+
    case EVENT_BUTTON1:              //Button for Query 2   ie, Cancelled Flights
->>>>>>> 0772e5895d0c975291c1d39e9174b78012b723a3
      currentRender.query= QUERY_2;
      currentScreen = screen2;
      break;
