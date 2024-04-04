@@ -6,12 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JOptionPane; 
-import java.util.HashMap;
 import java.util.Map;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.ArrayList;
 
 PShape americaMap; // variable to hold the map outline
 HashMap<String, PVector> stateDots; // Coordinates of dots representing each state
@@ -44,6 +42,7 @@ class Render {
         break;
        case QUERY_2:
        cancellationChart.draw();
+       cp5.draw();
        break;
        case QUERY_3:
         drawShortestFlightDurations(); // Draw the bar chart for the third query
