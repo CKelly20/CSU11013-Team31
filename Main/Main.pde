@@ -1,12 +1,18 @@
+import controlP5.*;
+
 String[] lines;
 PFont stdFont;
+PFont myFont;
 Widget widget1, widget2, widget3, widget4, widget5, widget6; 
 Screen currentScreen,screen1, screen2, screen3, screen4, screen5;
 Render currentRender;
 Flights[] flights;                  // Array containing all our Flights.
+
 String[] cancelledStates;                  // Handles Query 2
 float[]  cancellationCount;
 aBarChart  cancellationChart;
+ControlP5 cp5;
+DropdownList d1;
 
 
 void settings(){
@@ -88,7 +94,7 @@ void setup() {                                   // reads data and converts to b
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
   
-   widget1 = new Widget(30, 270, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
+  widget1 = new Widget(30, 450, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
   widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
          stdFont, EVENT_BUTTON2); 
@@ -98,7 +104,7 @@ void setup() {                                   // reads data and converts to b
           stdFont, EVENT_BACKWARD);
   widget5 =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
           stdFont, EVENT_BUTTON3);
-  widget6 =  new Widget(110, 450, 220, 40, "Set Date Range", color(125, 150, 200),
+  widget6 =  new Widget(110, 270, 220, 40, "Set Date Range", color(125, 150, 200),
           stdFont, EVENT_BUTTON4);
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
@@ -108,7 +114,7 @@ void setup() {                                   // reads data and converts to b
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
   screen1.addWidget(widget1, widget2);
   screen1.addWidget(widget3, widget5);
-  screen1.addWidget(widget6);
+  screen1.addWidget(dateButton);
   screen2.addWidget(widget4);
   screen3.addWidget(widget4);
   screen4.addWidget(widget4);
@@ -116,55 +122,51 @@ void setup() {                                   // reads data and converts to b
   currentRender = new Render (QUERY_NULL, null);    //Setting up a render object 
 
   
-
-  
-  // This is for the screens class
-  backgroundImage = loadImage("background.jpg");
+  backgroundImage = loadImage("background.jpg");    // This is for the screens class  
   backgroundImage.resize(width, height);
   logo = loadImage("logo.png");
-  
-  //for (Flights flight : flights) { // could be removed, print out all flight objects and its info
-   // if (flight != null) {
-  //    flight.printFlight();
- //   }
- // }
  
   cancelledStates = topCancelledOriginStates(flights);                    // Find the data then create the chart for Query 2
   cancellationCount =  getAmountCancelled(flights,cancelledStates);
   BarChart barChart = new BarChart(this);                               
   cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "State", "No. of flights cancelled",
   "Top 5 States for flight Cancellations.");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
+  
+  cp5 = new ControlP5(this);
+  d1 = cp5.addDropdownList("myList-d1").setPosition(60, 100);            // Creating dropDown menu. 
+  customize(d1); // customize the first list                            // Hide all the minor details getting assigned.
+  cp5.setAutoDraw(false);                                               // We decide when to draw the menu.
+  myFont = createFont("Arial", 14);  
+  cp5.setFont(myFont);
 
 
  startDate = getDate("Enter start date (DD/MM/YYYY):");
  endDate = getDate("Enter end date (DD/MM/YYYY):");         
 }
 
-void draw() {  
-  currentScreen.draw(); //<>//
-  currentRender.draw();
-  }
 
+void draw() {
+  // Draw current screen
+  currentScreen.draw();
+  currentRender.draw();
+}
 
 void mousePressed(){
   switch(currentScreen.getEvent(mouseX, mouseY)) {
-   case EVENT_BUTTON1:              //Button for Query 2 
-     println("button 1!");
+
+   case EVENT_BUTTON1:              //Button for Query 2   ie, Cancelled Flights
      currentRender.query= QUERY_2;
      currentScreen = screen2;
      break;
    case EVENT_BUTTON2:        //Button for Query 3
-     println("button 2!");
      currentRender.query= QUERY_3;
      currentScreen = screen2;
      currentRender.data= lines;
      break;
-   case EVENT_BUTTON3:        //Button for About
-     println("button 3!");
+     case EVENT_BUTTON3:        //Button for About
      currentScreen = screen3;
      break;
-   case EVENT_BUTTON4:
-     println("button 4!");
+    case EVENT_BUTTON4:
      boolean dateInputSuccessful = getDate(); // Ask for date only when "Set Date Range" button is pressed
      if (dateInputSuccessful) {
        currentScreen = screen4; // Switch screen only if date input was successful
@@ -175,13 +177,12 @@ void mousePressed(){
      case FLIGHT_INFO_SCREEN:
      currentScreen = screen5;
     case EVENT_FORWARD:              //Button for Query 1
-      println("Query One");
       currentScreen = screen2;
       currentRender.query= QUERY_1;
       currentRender.data = lines;
       break;
    case EVENT_BACKWARD:                  // Home Button. Brings us back to screen 1 and resets query!
-     println("backward"); currentScreen = screen1;
+     currentScreen = screen1;
      currentRender.query= QUERY_NULL;
      break;
      } 
@@ -212,4 +213,34 @@ void mousePressed(){
   else
     aWidget.mouseNotOver();  
 }
+}
+
+void customize(DropdownList ddl) {     // Author: C.Kelly   Sets the minor details for the provide dropDown menu.
+  //ddl.setBackgroundColor(color(255));
+  ddl.setItemHeight(40);
+  ddl.setBarHeight(30);
+  ddl.setCaptionLabel("Select State");
+  ddl.setSize(125,200);
+
+  addStatesToDropdown(ddl,flights);
+  
+  ddl.setColorBackground(color(204,102,0));
+  ddl.setColorActive(color(255, 128, 128));
+}
+
+void controlEvent(ControlEvent theEvent) {        // Author: C.Kelly    Handles retrieving a value upon pressing an option from a drop down menu.
+
+  if (theEvent.isController()) { 
+    String selectedState = theEvent.getController().getLabel();
+
+    int cancelledFlightsCount;
+    
+    //println(d1.getItem(selectedState));
+    
+    Map test = d1.getItem(selectedState);
+    if (test != null && test.containsKey("value")) {
+      cancelledFlightsCount = (int)Float.parseFloat(test.get("value").toString());
+      println(selectedState+" had " +cancelledFlightsCount+" cancelled flights!");
+    }
+  }
 }

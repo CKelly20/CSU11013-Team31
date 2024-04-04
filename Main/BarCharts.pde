@@ -1,6 +1,6 @@
 import org.gicentre.utils.stat.*;
 
-class aBarChart {            //(C.Kelly added a bar chart class that enables us to make bar charts quite easily 27/03)
+class aBarChart {            // Author: C.Kelly   Added a bar chart class that enables us to make bar charts quite easily 27/03
   BarChart barChart;
   float[] dataDisplay;
   String[] labelDisplay;

@@ -3,7 +3,7 @@ import java.util.Map.Entry;
 import java.util.List;
 import java.util.Comparator;
 import java.util.Collections;
- 
+
 
 
 class Render {
@@ -30,6 +30,7 @@ class Render {
         break;
        case QUERY_2:
        cancellationChart.draw();
+       cp5.draw();
        break;
        case QUERY_3:
         drawShortestFlightDurations(); // Draw the bar chart for the third query
