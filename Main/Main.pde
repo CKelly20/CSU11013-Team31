@@ -142,38 +142,15 @@ void setup() {                                   // reads data and converts to b
 }
 
 void draw() {
-  // Only increase transition progress if it's less than 1.0
-  if (transitionProgress < 1.0) {
-    transitionProgress += 0.04; // Adjust the value to control the animation speed
-  }
-  
   // Draw current screen
   currentScreen.draw();
-  
-  // Draw next screen moving from left to right
-  pushMatrix();
-  translate(lerp(-width, 0, transitionProgress), 0);
-  screen1.draw();
-  popMatrix();
-  
-  // Draw next screen moving from off-screen into view
-  pushMatrix();
-  translate(lerp(-width, 0, transitionProgress), 0);
-  screen2.draw();
-  popMatrix();
-  
-  // Update current screen after transition is complete
-  if (transitionProgress >= 1.0) {
-    currentScreen = screen2;
-  }
-  
   currentRender.draw();
-} //<>//
+}
 
 
 void mousePressed(){
   switch(currentScreen.getEvent(mouseX, mouseY)) {
-   case EVENT_BUTTON1:              //Button for Query 2   ie, Cancelled Flights
+   case EVENT_BUTTON1:              //Button for Query 2   ie, Cancelled Flights //<>//
      println("button 1!");
      currentRender.query= QUERY_2;
      currentScreen = screen2;
