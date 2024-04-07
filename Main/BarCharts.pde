@@ -13,8 +13,15 @@ class aBarChart {            // Author: C.Kelly   Added a bar chart class that e
     barChart.setData(inputData);
 
     barChart.setMinValue(0);
-    barChart.setMaxValue(50);
-
+    
+    if (flights.length >= 100000) {          // Adjust max range based on amount of data.
+    barChart.setMaxValue(1250); 
+    } else if (flights.length >= 50000) {
+    barChart.setMaxValue(750); 
+    } else {
+    barChart.setMaxValue(50);               // A default value
+    }
+    
     barChart.showValueAxis(true);
     barChart.setBarLabels(inputLabels);
     barChart.showCategoryAxis(true);
