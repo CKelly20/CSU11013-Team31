@@ -127,7 +127,9 @@ void setup() {                                   // reads data and converts to b
   logo = loadImage("logo.png");
  
   cancelledStates = topCancelledOriginStates(flights);                    // Find the data then create the chart for Query 2
+  printArray(cancelledStates);
   cancellationCount =  getAmountCancelled(flights,cancelledStates);
+  printArray(cancellationCount);
   BarChart barChart = new BarChart(this);                               
   cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "State", "No. of flights cancelled",
   "Top 5 States for flight Cancellations.");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
@@ -147,7 +149,7 @@ void setup() {                                   // reads data and converts to b
 
 void draw() {
   // Draw current screen
-  currentScreen.draw();
+  currentScreen.draw(); //<>//
   currentRender.draw();
 }
 

@@ -11,7 +11,7 @@ String[] topCancelledOriginStates(Flights[] allFlights) {      // Author: C.Kell
     }
   }
   List<Map.Entry<String, Integer>> list = new ArrayList<>(stateCancellationCounts.entrySet());     // Convert the map to a list of map entries  
-  list.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));        // Sort the list by the number of cancellations, descending
+  list.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));        // Sort the list by the number of cancellations, descending //<>//
 
   int size = Math.min(5, list.size());            // Create an array for the top 5 states
   String[] topStates = new String[size];
