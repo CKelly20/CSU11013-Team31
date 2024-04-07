@@ -96,7 +96,7 @@ void setup() {                                   // reads data and converts to b
   
   widget1 = new Widget(30, 450, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
-  widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
+  widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        
          stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(110, 390, 220, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
@@ -127,9 +127,7 @@ void setup() {                                   // reads data and converts to b
   logo = loadImage("logo.png");
  
   cancelledStates = topCancelledOriginStates(flights);                    // Find the data then create the chart for Query 2
-  printArray(cancelledStates);
   cancellationCount =  getAmountCancelled(flights,cancelledStates);
-  printArray(cancellationCount);
   BarChart barChart = new BarChart(this);                               
   cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "State", "No. of flights cancelled",
   "Top 5 States for flight Cancellations.");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
@@ -143,13 +141,13 @@ void setup() {                                   // reads data and converts to b
 
 
  startDate = getDate("Enter start date (DD/MM/YYYY):");
- endDate = getDate("Enter end date (DD/MM/YYYY):");         
+ endDate = getDate("Enter end date (DD/MM/YYYY):"); 
 }
 
 
 void draw() {
   // Draw current screen
-  currentScreen.draw(); //<>//
+  currentScreen.draw();
   currentRender.draw();
 }
 
