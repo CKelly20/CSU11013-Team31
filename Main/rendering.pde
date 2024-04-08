@@ -138,60 +138,7 @@ void drawBusiestAirports() {
   text("Number of Flights", 0, -350); // Adjust positioning as needed
   popMatrix();
 }
-
-  
-void drawShortestFlightDurations() {
-  // Create a list to store flight durations
-  ArrayList<FlightDuration> flightDurations = new ArrayList<>();
-      
- for (int i = 1; i < data.length; i++) {
-      String line = data[i];
-      String[] parts = line.split(","); // Split the line by comma
-      int depTime = Integer.parseInt(parts[13]); // Get departure time 
-      int arrTime = Integer.parseInt(parts[15]); // Get arrival time 
-      float duration = (arrTime - depTime) /600; // Calculate duration in hours
-      String airportName = parts[4].trim(); // Get origin airport name
-      String destAirportName= parts[9].trim();
-      
-      // Add flight duration to the list
-      flightDurations.add(new FlightDuration(airportName, duration));
-    }
-  // Sort flight durations by duration in descending order
-  Collections.sort(flightDurations, Collections.reverseOrder());
-  
-  // Select the top 5 longest flight durations
-  List<FlightDuration> top5FlightDurations = flightDurations.subList(0, Math.min(5, flightDurations.size()));
-  
-  // Draw the bar chart for the top 5 longest flight durations
-  float startX = 200;
-  float startY = 100;
-  float barWidth = 200;
-  float maxDuration = top5FlightDurations.get(0).duration;
-  float scaleFactor = 200 / maxDuration; // Scale factor for bar heights
-  noStroke();
-  fill(255);
-  textSize(20);
-  text("Top 5  shortest Durations", width / 2, 50);
-  
-  for (int i = 0; i < top5FlightDurations.size(); i++) {
-    FlightDuration flightDuration = top5FlightDurations.get(i);
-    String airportName = flightDuration.airportName;
-    float duration = flightDuration.duration;
-    
-    // Draw the bar for each flight duration
-    fill(0, 0, 255);
-    rect(startX, startY + i * 80, duration * scaleFactor, 50);
-    
-    // Display airport name below the bar
-    fill(0);
-    text(airportName, startX, startY + i * 80 + 70);
-    
-    // Display duration above the bar
-    fill(0);
-    text(String.format("%.2f", duration) + " hours", startX + duration * scaleFactor, startY + i * 80 + 45);
-  }
-}
-  void drawLongestFlightRoutes() {  //Ciarán Nolan
+ void drawLongestFlightRoutes() {  //Ciarán Nolan
     if (data == null || data.length < 2) return; // Check for null data or insufficient rows
 
     // Initialize a HashMap to store flight durations for each route
@@ -260,9 +207,8 @@ void drawShortestFlightDurations() {
       text(route, x + 50 - textWidth(route) / 2, y + 20); // Adjusted route position, below x-axis
       x += 150; // Adjust x position for the next bar
     }
-    
-      
-  }
+  
+
 
   float getTimeDifference(String airport) { //Ciarán Nolan
     switch (airport.toLowerCase()) {
