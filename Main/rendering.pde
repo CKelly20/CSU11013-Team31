@@ -54,7 +54,7 @@ class Render {
        cp5.draw();
        break;
        case QUERY_3:
-        drawShortestFlightDurations(); // Draw the bar chart for the third query
+        drawLongestFlightRoutes();
         break;
         case QUERY_4:
         drawMap();
