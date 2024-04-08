@@ -5,7 +5,7 @@ String[] lines;
 PFont stdFont;
 PFont myFont;
 Widget widget1, widget2, widget3, widget4, widget5, widget6; 
-Screen currentScreen,screen1, screen2, screen3, screen4, screen5, screen6;
+Screen currentScreen,screen1, screen2, screen3, screen4, screen5, screen6, screen7;
 Render currentRender;
 
 Flights[] flights;                         // Array containing all our Flights.
@@ -120,13 +120,15 @@ void setup() {
   screen4 = new Screen(color(24,162,154), new ArrayList<Widget>(),4);
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
   screen6= new Screen(color(24,162,154), new ArrayList<Widget>(), 8);
+  screen7=  new Screen(color(24,162,154), new ArrayList<Widget>(), 2);
   screen1.addWidget(widget1, widget2);
   screen1.addWidget(widget3, widget5);
   screen1.addWidget(widget6);
-  screen2.addWidget(widget4,moreInfoButton);
+  screen2.addWidget(widget4);
   screen3.addWidget(widget4);
   screen4.addWidget(widget4);
   screen6.addWidget(widget4);
+  screen7.addWidget(widget4, moreInfoButton);
   currentScreen = screen1;
   currentRender = new Render (QUERY_NULL, null);    //Setting up our render object 
 
@@ -173,7 +175,7 @@ void mousePressed(){
      break;
    case EVENT_BUTTON2:        //Button for Query 3
      currentRender.query= QUERY_3;
-     currentScreen = screen2;
+     currentScreen = screen7;
      currentRender.data= lines;
      break;
      case EVENT_BUTTON3:        //Button for About
