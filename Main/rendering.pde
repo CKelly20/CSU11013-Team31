@@ -51,9 +51,12 @@ class Render {
        case QUERY_2:
        cancellationChart.draw();
        cp5.draw();
+       fill(255);
+       textSize(20);
+       text(dropdownQueryDisplay,30,300);
        break;
        case QUERY_3:
-        drawShortestFlightDurations(); // Draw the bar chart for the third query
+        drawShortestFlightDurations();     // Draw the bar chart for the third query
         break;
         case QUERY_4:
         drawMap();
