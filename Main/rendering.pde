@@ -207,6 +207,7 @@ void drawBusiestAirports() {
       text(route, x + 50 - textWidth(route) / 2, y + 20); // Adjusted route position, below x-axis
       x += 150; // Adjust x position for the next bar
     }
+}
   
 
 
