@@ -12,17 +12,6 @@ int animationStartFrame = 0; // Tracks the start frame of the animation
 boolean isAnimationReset = false; // Flag to check if animation has been reset
 float animationProgress = 0;
 float animationDuration = 120; 
-
-
-
-PShape americaMap; // variable to hold the map outline
-HashMap<String, PVector> stateDots; // Coordinates of dots representing each state
-String selectedState = "";
-String startDate, endDate;
-HashMap<String, ArrayList<Flights>> flightsByState;
-int scrollValue = 0;
-
-
 float lastUpdateTime = 0;
 float updateInterval = 0.05;
 
@@ -59,9 +48,6 @@ class Render {
        break;
        case QUERY_3:
         drawLongestFlightRoutes();
-        break;
-        case QUERY_4:
-        drawMap();
         break;
        case QUERY_5:
       drawFlightDurationPieChart();
