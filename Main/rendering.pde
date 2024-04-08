@@ -27,6 +27,7 @@ float lastUpdateTime = 0;
 float updateInterval = 0.05;
 
 class Render {
+ List<Map.Entry<String, Float>> top5Routes;
   int query;
   String[] data;    
   final int barHeight = 50;
