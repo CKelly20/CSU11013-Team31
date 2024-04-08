@@ -4,8 +4,13 @@ import controlP5.*;
 String[] lines;
 PFont stdFont;
 PFont myFont;
+<<<<<<< Updated upstream
 Widget widget1, widget2, widget3, widget4, widget5, widget6; 
 Screen currentScreen,screen1, screen2, screen3, screen4, screen5, screen6;
+=======
+Widget widget1, widget2, widget3, widget4, widget5, widget6, widget7; 
+Screen currentScreen,screen1, screen2, screen3, screen4, screen5;
+>>>>>>> Stashed changes
 Render currentRender;
 
 Flights[] flights;                         // Array containing all our Flights.
@@ -24,6 +29,7 @@ size(SCREENX, SCREENY);
 
 void setup() {  
   frameRate(60);
+<<<<<<< Updated upstream
   americaMap = loadShape("MapOfAmerica.svg"); // Load the map outline from the SVG file
   americaMap.scale(0.9);                      // Scale the map to fit within the canvas
   americaMap.translate(0, 0);
@@ -83,11 +89,17 @@ void setup() {
   
   lines = loadStrings("flights2k.csv");       // Load data from file into an array of strings
   flights = new Flights[lines.length];        // Create an array of Flights objects
+=======
+  lines = loadStrings("flights2k.csv"); // Load data from file into an array of strings
+  flights = new Flights[lines.length]; //// Create an array of Flights objects
+>>>>>>> Stashed changes
+  
+  flightsByState = new HashMap<String, ArrayList<Flights>>();
   
   for (int i = 1; i < lines.length; i++) {
     String[] data = lines[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
     flights[i] = new Flights(data);
-    Flights flight = flights[i];
+     Flights flight = flights[i];
     String originState = flight.originState;
     if (!flightsByState.containsKey(originState)) {
       flightsByState.put(originState, new ArrayList<Flights>());
@@ -97,9 +109,14 @@ void setup() {
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
   
-  widget1 = new Widget(30, 450, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
+   widget1 = new Widget(30, 270, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
+<<<<<<< Updated upstream
   widget2 = new Widget(110, 330, 220, 40, "Longest flights", color(125, 150, 200),        
+=======
+
+  widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
+>>>>>>> Stashed changes
          stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(110, 390, 220, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
@@ -107,17 +124,24 @@ void setup() {
           stdFont, EVENT_BACKWARD);
   widget5 =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
           stdFont, EVENT_BUTTON3);
+<<<<<<< Updated upstream
   widget6 =  new Widget(110, 270, 220, 40, "Set Date Range", color(125, 150, 200),
           stdFont, EVENT_BUTTON4);
  Widget moreInfoButton = new Widget(width - 250, height - 100, 200, 50, "More Info",
                       color(125, 150, 200), stdFont, EVENT_MORE_INFO);
   moreInfoButton.draw();
   
+=======
+  widget6 = new Widget(110,450,220,40,"Set Date Range", color(125, 150, 200),
+          stdFont, EVENT_BUTTON6);
+  widget7 =  new Widget(40, 630, 200, 40, "Return", color(100, 155, 150),
+          stdFont, EVENT_BACKWARD2);
+>>>>>>> Stashed changes
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
   screen2 = new Screen(color(24,162,154), new ArrayList<Widget>(), 2);
   screen3 = new Screen(color(24,162,154), new ArrayList<Widget>(), 3);
-  screen4 = new Screen(color(24,162,154), new ArrayList<Widget>(),4);
+  screen4 =  new Screen(color(24,162,154), new ArrayList<Widget>(), 4);
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
   screen6= new Screen(color(24,162,154), new ArrayList<Widget>(), 8);
   screen1.addWidget(widget1, widget2);
@@ -126,9 +150,15 @@ void setup() {
   screen2.addWidget(widget4,moreInfoButton);
   screen3.addWidget(widget4);
   screen4.addWidget(widget4);
+<<<<<<< Updated upstream
   screen6.addWidget(widget4);
   currentScreen = screen1;
   currentRender = new Render (QUERY_NULL, null);    //Setting up our render object 
+=======
+  screen5.addWidget(widget7);
+  currentScreen = screen1;
+  currentRender = new Render (QUERY_NULL, null);    //Setting up a render object  
+>>>>>>> Stashed changes
 
   
   backgroundImage = loadImage("background.jpg");    // This is for the screens class  
@@ -147,26 +177,23 @@ void setup() {
   cp5.setAutoDraw(false);                                                  // We decide when to draw the menu.
   myFont = createFont("Arial", 14);  
   cp5.setFont(myFont);     
-
-
- startDate = getDate("Enter start date (DD/MM/YYYY):");
- endDate = getDate("Enter end date (DD/MM/YYYY):");         
-
-
- endDate = getDate("Enter end date (DD/MM/YYYY):"); 
-
 }
 
 void draw() {  
   currentScreen.draw();
   currentRender.draw();
+  if(currentScreen == screen4){
+    shape(americaMap, -150, 20);
+    drawStateDots();
+  }else if (currentScreen == screen5) {
+    drawFlightInfoScreen();
+  }
   }
 
 
 
 void mousePressed(){
   switch(currentScreen.getEvent(mouseX, mouseY)) {
-
    case EVENT_BUTTON1:              //Button for Query 2   ie, Cancelled Flights
      currentRender.query= QUERY_2;
      currentScreen = screen2;
@@ -179,6 +206,7 @@ void mousePressed(){
      case EVENT_BUTTON3:        //Button for About
      currentScreen = screen3;
      break;
+<<<<<<< Updated upstream
    case EVENT_MORE_INFO:
       println("More Information button pressed!");
       currentScreen = screen6;// Switch to the new screen for pie chart
@@ -195,6 +223,8 @@ void mousePressed(){
      break;
      case FLIGHT_INFO_SCREEN:
      currentScreen = screen5;
+=======
+>>>>>>> Stashed changes
     case EVENT_FORWARD:              //Button for Query 1
       currentScreen = screen2;
       currentRender.query= QUERY_1;
@@ -204,21 +234,22 @@ void mousePressed(){
      currentScreen = screen1;
      currentRender.query= QUERY_NULL;
      break;
-     } 
-     for (String state : stateDots.keySet()) {
-       PVector dotPos = stateDots.get(state); // Get the coordinates of the dot for the current state
-       // Check if the mouse is over the dot when pressed
-       if (dist(dotPos.x, dotPos.y, mouseX, mouseY) < 10) {
-         selectedState = state; // Set the selected state
-         return;
-       }
+   case EVENT_BUTTON6:
+     promptForDateRange();
+     if (startDate != null || endDate != null) {
+     currentScreen = screen4;
+     loadMap();
      }
-     if (currentScreen == screen4) {
-       handleMapScreenClick();
-     } else if (currentScreen == screen5) {
-       handleFlightInfoScreenClick();
-     }
+     else 
+     currentScreen = screen1;
+     break; 
+    case EVENT_BACKWARD2:
+     currentScreen = screen4;
+     currentRender.query= QUERY_NULL;
+     break;
    }
+    handleMapScreenClick();
+}
    
    void mouseMoved(){      //Changes Colour of widgets outline when mouse hovers them
   int event;

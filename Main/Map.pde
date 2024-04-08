@@ -1,48 +1,80 @@
+import javax.swing.JOptionPane;
 import java.util.Map;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JOptionPane;
 
+PShape americaMap; // Declare a variable to hold the map outline
+HashMap<String, PVector> stateDots; // Coordinates of dots representing each state
+String selectedState = "";
+String startDate, endDate;
+HashMap<String, ArrayList<Flights>> flightsByState;
 
-void drawMap(){
-  shape(americaMap, -150, 20);
-  drawStateDots();
- 
- if (currentScreen == screen4) {
-    drawMapScreen();
-  } else if (currentScreen == screen5) {
-    drawFlightInfoScreen();
-  }
- handleMapScreenClick();
-}
-
-void drawStateDots() {
-  fill(255); // Set fill color to white for dots
-  textSize(12); // Set text size for state names
+void loadMap() {
+  americaMap = loadShape("MapOfAmerica.svg"); // Load the map outline from the SVG file
+  americaMap.scale(0.9); // Scale the map to fit within the canvas
+  americaMap.translate(0, 0);
   
-  // Iterate through each state in the HashMap
-  for (String state : stateDots.keySet()) {
-    PVector dotPos = stateDots.get(state); // Get the coordinates of the dot for the current state
-     
-     if (hasFlightsDuringDateRange(state, startDate, endDate)) {
-      // Check if the mouse is over the dot
-      if (dist(dotPos.x, dotPos.y, mouseX, mouseY) < 10) {
-        fill(255, 0, 0); // Change fill color to red if hovering
-      } else if (selectedState.equals(state)) {
-        fill(0, 255, 0); // Change fill color to green if selected
-      } else {
-        fill(255); // Set fill color to white for dots
-      }
-      
-      // Draw the dot
-      ellipse(dotPos.x, dotPos.y, 10, 10);
-      text(state, dotPos.x + 15, dotPos.y);
-     }
-  }
+  stateDots = new HashMap<String, PVector>();
+  
+  stateDots.put("CA", new PVector(160, 280));
+  stateDots.put("TX", new PVector(480, 420));
+  stateDots.put("WA", new PVector(200, 80)); // Washington
+  stateDots.put("OR", new PVector(180, 140)); // Oregon
+  stateDots.put("NV", new PVector(210, 230)); // Nevada
+  stateDots.put("ID", new PVector(260, 160)); // Idaho
+  stateDots.put("MT", new PVector(330, 100)); // Montana
+  stateDots.put("WY", new PVector(370, 200)); // Wyoming
+  stateDots.put("UT", new PVector(300, 260)); // Utah
+  stateDots.put("CO", new PVector(380, 280)); // Colorado
+  stateDots.put("AZ", new PVector(270, 350)); // Arizona
+  stateDots.put("NM", new PVector(370, 370)); // New Mexico
+  stateDots.put("ND", new PVector(480, 110)); // North Dakota
+  stateDots.put("SD", new PVector(480, 180)); // South Dakota
+  stateDots.put("NE", new PVector(480, 230)); // Nebraska
+  stateDots.put("KS", new PVector(500, 290)); // Kansas
+  stateDots.put("OK", new PVector(520, 350)); // Oklahoma
+  stateDots.put("MN", new PVector(560, 140)); // Minnesota
+  stateDots.put("IA", new PVector(570, 220)); // Iowa
+  stateDots.put("MO", new PVector(590, 280)); // Missouri
+  stateDots.put("AR", new PVector(590, 370)); // Arkansas
+  stateDots.put("LA", new PVector(595, 430)); // Louisiana
+  stateDots.put("WI", new PVector(620, 160)); // Wisconsin
+  stateDots.put("IL", new PVector(630, 260)); // Illinois
+  stateDots.put("IN", new PVector(690, 250)); // Indiana
+  stateDots.put("MI", new PVector(700, 170)); // Michigan
+  stateDots.put("OH", new PVector(740, 240)); // Ohio
+  stateDots.put("KY", new PVector(720, 300)); // Kentucky
+  stateDots.put("WV", new PVector(780, 270)); // West Virginia
+  stateDots.put("PA", new PVector(810, 220)); // Pennsylvania
+  stateDots.put("NY", new PVector(840, 170)); // New York
+  stateDots.put("VT", new PVector(870, 140)); // Vermont
+  stateDots.put("NH", new PVector(900, 150)); // New Hampshire
+  stateDots.put("ME", new PVector(910, 90));  // Maine
+  stateDots.put("MA", new PVector(880, 170)); // Massachusetts
+  stateDots.put("CT", new PVector(885, 185)); // Connecticut
+  stateDots.put("RI", new PVector(900, 185)); // Rhode Island
+  stateDots.put("NJ", new PVector(865, 220)); // New Jersey
+  stateDots.put("DE", new PVector(860, 250)); // Delaware
+  stateDots.put("MD", new PVector(830, 250)); // Maryland
+  stateDots.put("VA", new PVector(805, 290)); // Virginia
+  stateDots.put("AL", new PVector(570, 440)); // Alabama
+  stateDots.put("MS", new PVector(540, 490)); // Mississippi
+  stateDots.put("NC", new PVector(810, 330)); // North Carolina
+  stateDots.put("SC", new PVector(790, 370)); // South Carolina
+  stateDots.put("GA", new PVector(750, 400)); // Georgia
+  stateDots.put("FL", new PVector(800, 490)); // Florida
+  stateDots.put("AL", new PVector(700, 400)); // Alabama
+  stateDots.put("MS", new PVector(650, 400)); // Mississippi
+  stateDots.put("TN", new PVector(680, 340)); // Tennessee
 }
+
+void promptForDateRange() {
+  startDate = getDate("Enter start date (DDMMYYYY):");
+  endDate = getDate("Enter end date (DDMMYYYY):");
+}
+
 String getDate(String message) {
-  if(currentScreen == screen4){
   String inputDate = JOptionPane.showInputDialog(message); // Prompt the user for input
   if (inputDate == null) { // Check if the user pressed cancel
     return null;
@@ -54,28 +86,10 @@ String getDate(String message) {
     }
   }
   return inputDate;
-  }
-  return "";
 }
-boolean getDate() {
-  String startDateInput = JOptionPane.showInputDialog("Enter start date (DD/MM/YYYY):"); // Prompt the user for input
-  String endDateInput = JOptionPane.showInputDialog("Enter end date (DD/MM/YYYY):"); // Prompt the user for input
-  
-  // Check if both start date and end date inputs are valid
-  if (isValidDate(startDateInput) && isValidDate(endDateInput)) {
-    startDate = startDateInput;
-    endDate = endDateInput;
-    return true; // Return true if both dates are valid
-  } else {
-    JOptionPane.showMessageDialog(null, "Invalid date format. Please enter dates in the format DD/MM/YYYY.");
-    return false; // Return false if either date is invalid
-  }
-}
+
 boolean isValidDate(String date) {
   // Check if the date string is in the format DDMMYYYY and is a valid date
-  if (date == null || date.isEmpty()) {
-        return false;
-    }
   if (date.length() != 10) {
     return false;
   }
@@ -94,8 +108,7 @@ boolean isValidDate(String date) {
 boolean hasFlightsDuringDateRange(String state, String startDate, String endDate) {
   if (startDate == null || endDate == null) {
         return false; // If startDate or endDate is null, return false
-    }
-  
+    } 
   for (Flights flight : flights) {
         if (flight != null && flight.originState.equalsIgnoreCase(state)) {
             // System.out.println("Flight Date: " + flight.flightDate);
@@ -109,9 +122,6 @@ boolean hasFlightsDuringDateRange(String state, String startDate, String endDate
 }
 
 boolean isDateInRange(String date, String startDate, String endDate) {
-   if (startDate == null || endDate == null) {
-        return false; // If startDate or endDate is null, return false
-      }
   SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
   try {
     Date flightDate = dateFormat.parse(date);
@@ -125,37 +135,64 @@ boolean isDateInRange(String date, String startDate, String endDate) {
     return false; // Return false if parsing fails
   }
 }
-void drawMapScreen() {
-  // Code to draw the map screen...
-  background(24,162,154); // Set background color to white
-  fill(200); // Set fill color to blue for the map
 
-  // Draw the map outline
-  shape(americaMap, -150, 20); // Draw the map at position (0, 0) on the canvas
+void drawStateDots() {
+  fill(255); // Set fill color to white for dots
+  textSize(15); // Set text size for state names
   
-  drawStateDots();
-  
-  fill(200);
-  rect(10, height - 50, 100, 40); // Adjust position and size as needed
-  fill(0);
-  textSize(16);
-  text("Return", 20, height - 25); // Adjust position as needed
+  // Iterate through each state in the HashMap
+  for (String state : stateDots.keySet()) {
+    PVector dotPos = stateDots.get(state); // Get the coordinates of the dot for the current state
+     
+     if (hasFlightsDuringDateRange(state, startDate, endDate)) {
+      // Check if the mouse is over the dot
+      if (dist(dotPos.x, dotPos.y, mouseX, mouseY) < 10) {
+        fill(255, 0, 0); // Change fill color to red if hovering
+      } else if (selectedState.equals(state)) {
+        fill(0, 255, 0); // Change fill color to green if selected
+      } else {
+        fill(255); // Set fill color to white for dots
+      }
+      
+      // Draw the dot
+      noStroke();
+      ellipse(dotPos.x, dotPos.y, 10, 10);
+      text(state, dotPos.x + 15, dotPos.y);
+     }
+  }
+}
+
+void handleMapScreenClick() {
+  // Check if the mouse is over any dot
+  if(mousePressed) {
+    // If clicked on a state, set currentScreen to FLIGHT_INFO_SCREEN
+    if(startDate != null || endDate != null){
+      for (String state : stateDots.keySet()) {
+        PVector dotPos = stateDots.get(state); // Get the coordinates of the dot for the current state
+        // Check if the mouse is over the dot when pressed
+        if (dotPos != null && dist(dotPos.x, dotPos.y, mouseX, mouseY) < 10) {
+          selectedState = state; // Set the selected state
+          currentScreen = screen5;
+          // Switch to flight info screen
+          return;
+        }
+      }
+    }
+  }
 }
 
 void drawFlightInfoScreen() {
-  // Code to draw the flight info screen...
-  background(24,162,154); // Set background color to white
-  fill(200); // Set fill color to blue for the map
+  // Code to draw the flight info screen
   
   fill(0);
   textSize(20);
   int y = 50; // Starting y-coordinate for displaying flight information
   
   text("From", 50, y);
-  text("Flight Number", 250, y);
-  text("Departure Time", 400, y);
-  text("Arrival Time", 550, y);
-  text("Destination", 700, y);
+  text("Flight Number", 280, y);
+  text("Departure Time", 450, y);
+  text("Arrival Time", 600, y);
+  text("Destination", 750, y);
   
   y += 30;
 
@@ -172,7 +209,7 @@ void drawFlightInfoScreen() {
       String arrTime = String.format("%02d:%02d", flight.crsArrTime / 100, flight.crsArrTime % 100);
       
       text(flight.originCityName, 50, y);
-      text(flight.mktCarrier + flight.mktFlightNum, 250, y);
+      text(flight.mktCarrier + flight.mktFlightNum, 280, y);
       text(departureTime, 450, y);
       text(arrTime, 600, y);
       text(flight.destCityName, 750, y);
@@ -181,42 +218,4 @@ void drawFlightInfoScreen() {
       flightsDisplayed++; // Increment the counter for the number of flights displayed
     }
   }
-
-  fill(200);
-  rect(40, 630 , 200, 40);
-  fill(0);
-  textSize(30);
-  text("Return", 60, 660);
 }
-
-void handleMapScreenClick() {
-  // Check if the mouse is over any dot
-  if(mousePressed) {
-    // If clicked on a state, set currentScreen to FLIGHT_INFO_SCREEN
-    for (String state : stateDots.keySet()) {
-      PVector dotPos = stateDots.get(state); // Get the coordinates of the dot for the current state
-      
-      // Check if the mouse is over the dot when pressed
-      if (dist(dotPos.x, dotPos.y, mouseX, mouseY) < 10) {
-        selectedState = state; // Set the selected state
-        currentScreen = screen5; // Switch to flight info screen
-        return;
-      }
-    }
-  }
-}
-
-void handleFlightInfoScreenClick() {
-  // Check if the mouse is over the "Back" button
-  // If clicked on the "Back" button, set currentScreen to MAP_SCREEN
-   if (mouseX >= 20 && mouseX <= 120 && mouseY >= height - 50 && mouseY <= height - 10) {
-    // If clicked on the "Back" button
-    currentScreen = screen4; // Switch back to the map screen
-    selectedState = ""; // Reset selected state
-    return;
-  }
-}
-
-
- 
- 
