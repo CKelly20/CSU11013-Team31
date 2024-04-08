@@ -53,6 +53,9 @@ class Render {
        case QUERY_2:
        cancellationChart.draw();
        cp5.draw();
+       fill(255);
+       textSize(20);
+       text(dropdownQueryDisplay,30,300);
        break;
        case QUERY_3:
         drawLongestFlightRoutes();

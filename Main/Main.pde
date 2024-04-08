@@ -1,36 +1,31 @@
-
-String[] lines; //<>//
-
+ //<>//
 import controlP5.*;
 
-
+String[] lines;
 PFont stdFont;
 PFont myFont;
 Widget widget1, widget2, widget3, widget4, widget5, widget6; 
 Screen currentScreen,screen1, screen2, screen3, screen4, screen5, screen6;
 Render currentRender;
 
-
-Flights[] flights;    // Array containing all our Flights.
-
-
-         
+Flights[] flights;                         // Array containing all our Flights.
 
 String[] cancelledStates;                  // Handles Query 2
 float[]  cancellationCount;
 aBarChart  cancellationChart;
 ControlP5 cp5;
 DropdownList d1;
+String dropdownQueryDisplay="";
 
 void settings(){
 size(SCREENX, SCREENY);
 }
 
 
-void setup() {  // reads data and converts to bytes, to string, then printData method is initialised.
+void setup() {  
   frameRate(60);
   americaMap = loadShape("MapOfAmerica.svg"); // Load the map outline from the SVG file
-  americaMap.scale(0.9); // Scale the map to fit within the canvas
+  americaMap.scale(0.9);                      // Scale the map to fit within the canvas
   americaMap.translate(0, 0);
   stateDots = new HashMap<String, PVector>(); // Initialize the HashMap
   flightsByState = new HashMap<String, ArrayList<Flights>>();
@@ -86,8 +81,8 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
   stateDots.put("MS", new PVector(650, 400)); // Mississippi
   stateDots.put("TN", new PVector(680, 340)); // Tennessee
   
-  lines = loadStrings("flights2k.csv"); // Load data from file into an array of strings
-  flights = new Flights[lines.length]; //// Create an array of Flights objects
+  lines = loadStrings("flights2k.csv");       // Load data from file into an array of strings
+  flights = new Flights[lines.length];        // Create an array of Flights objects
   
   for (int i = 1; i < lines.length; i++) {
     String[] data = lines[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
@@ -133,23 +128,23 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
   screen4.addWidget(widget4);
   screen6.addWidget(widget4);
   currentScreen = screen1;
-  currentRender = new Render (QUERY_NULL, null);    //Setting up a render object 
+  currentRender = new Render (QUERY_NULL, null);    //Setting up our render object 
 
   
   backgroundImage = loadImage("background.jpg");    // This is for the screens class  
   backgroundImage.resize(width, height);
   logo = loadImage("logo.png");
  
-  cancelledStates = topCancelledOriginStates(flights);                    // Find the data then create the chart for Query 2
+  cancelledStates = topCancelledOriginStates(flights);                     // Find the data then create the chart for Query 2
   cancellationCount =  getAmountCancelled(flights,cancelledStates);
   BarChart barChart = new BarChart(this);                               
   cancellationChart = new aBarChart(barChart, cancellationCount, cancelledStates, "State", "No. of flights cancelled",
-  "Top 5 States for flight Cancellations.");      //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
+  "Top 5 States for flight Cancellations.");                               //Parameters (barChart, Data Array, LabelArray, xLabel, yLabel, Title)
   
   cp5 = new ControlP5(this);
-  d1 = cp5.addDropdownList("myList-d1").setPosition(60, 100);            // Creating dropDown menu. 
-  customize(d1); // customize the first list                            // Hide all the minor details getting assigned.
-  cp5.setAutoDraw(false);                                               // We decide when to draw the menu.
+  d1 = cp5.addDropdownList("myList-d1").setPosition(60, 100);              // Creating dropDown menu. 
+  customize(d1); // customize the first list                               // Hide all the minor details getting assigned.
+  cp5.setAutoDraw(false);                                                  // We decide when to draw the menu.
   myFont = createFont("Arial", 14);  
   cp5.setFont(myFont);     
 
@@ -239,8 +234,15 @@ void mousePressed(){
 }
 }
 
-void customize(DropdownList ddl) {     // Author: C.Kelly   Sets the minor details for the provide dropDown menu.
-  //ddl.setBackgroundColor(color(255));
+/**
+ * Sets the minor details for the provide dropDown menu.
+ * These details include the addition of labels and the
+ * proportions of all the different components that make the list.
+ *
+ *@author  C. Kelly
+ *@param   ddl       A DropdownList object 
+ */
+void customize(DropdownList ddl) {     
   ddl.setItemHeight(40);
   ddl.setBarHeight(30);
   ddl.setCaptionLabel("Select State");
@@ -252,19 +254,28 @@ void customize(DropdownList ddl) {     // Author: C.Kelly   Sets the minor detai
   ddl.setColorActive(color(255, 128, 128));
 }
 
-void controlEvent(ControlEvent theEvent) {        // Author: C.Kelly    Handles retrieving a value upon pressing an option from a drop down menu.
+
+/**
+ *Handles retrieving a value upon pressing 
+ *an option from a drop down menu and processing 
+ *that value to be displayed on the screen.
+ *Implemented using the controlP5 library.
+ *
+ *@author  C. Kelly
+ *@param   theEvent    A ControlEvent object created on button press by the controlP5 library
+ */
+void controlEvent(ControlEvent theEvent) {        
 
   if (theEvent.isController()) { 
     String selectedState = theEvent.getController().getLabel();
 
     int cancelledFlightsCount;
     
-    //println(d1.getItem(selectedState));
-    
     Map test = d1.getItem(selectedState);
     if (test != null && test.containsKey("value")) {
       cancelledFlightsCount = (int)Float.parseFloat(test.get("value").toString());
-      println(selectedState+" had " +cancelledFlightsCount+" cancelled flights!");
+      dropdownQueryDisplay=(selectedState+" had " +cancelledFlightsCount+" cancelled flights!");
+      println(dropdownQueryDisplay);
     }
   }
 }
