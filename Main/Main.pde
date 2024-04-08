@@ -124,7 +124,7 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
   screen3 = new Screen(color(24,162,154), new ArrayList<Widget>(), 3);
   screen4 = new Screen(color(24,162,154), new ArrayList<Widget>(),4);
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
-  screen6= new Screen(color(24,162,154), new ArrayList<Widget>(), 7);
+  screen6= new Screen(color(24,162,154), new ArrayList<Widget>(), 8);
   screen1.addWidget(widget1, widget2);
   screen1.addWidget(widget3, widget5);
   screen1.addWidget(widget6);
