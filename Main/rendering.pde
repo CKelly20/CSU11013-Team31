@@ -49,15 +49,9 @@ class Render {
        case QUERY_3:
         drawLongestFlightRoutes();
         break;
-<<<<<<< Updated upstream
-        case QUERY_4:
-        drawMap();
-        break;
        case QUERY_5:
       drawFlightDurationPieChart();
        break;
-=======
->>>>>>> Stashed changes
     }
   }
   
