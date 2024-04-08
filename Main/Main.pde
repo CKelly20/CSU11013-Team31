@@ -176,8 +176,8 @@ void mousePressed(){
  * These details include the addition of labels and the
  * proportions of all the different components that make the list.
  *
- *@author  C. Kelly
- *@param   ddl       A DropdownList object 
+ * @author  C. Kelly
+ * @param   ddl       A DropdownList object 
  */
 void customize(DropdownList ddl) {     
   ddl.setItemHeight(40);
@@ -193,13 +193,18 @@ void customize(DropdownList ddl) {
 
 
 /**
- *Handles retrieving a value upon pressing 
- *an option from a drop down menu and processing 
- *that value to be displayed on the screen.
- *Implemented using the controlP5 library.
+ * Handles retrieving a value upon pressing 
+ * an option from a drop down menu and processing 
+ * that value to be displayed on the screen.
+ * Implemented using the controlP5 library.
  *
- *@author  C. Kelly
- *@param   theEvent    A ControlEvent object created on button press by the controlP5 library
+ * Note of Bug: Value retrieved is always staggered one behind 
+ * the option the user most recently chose. This results
+ * in the users choice not being immediately displayed but 
+ * instead being displayed upon the next button press.
+ *
+ * @author  C. Kelly
+ * @param   theEvent    A ControlEvent object created on button press by the controlP5 library
  */
 void controlEvent(ControlEvent theEvent) {        
 
