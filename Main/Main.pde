@@ -104,7 +104,7 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
   
   widget1 = new Widget(30, 450, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
-  widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        //Has no use. Can be repurposed as Query button!
+  widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        
          stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(110, 390, 220, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
@@ -150,6 +150,9 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
 
  startDate = getDate("Enter start date (DD/MM/YYYY):");
  endDate = getDate("Enter end date (DD/MM/YYYY):");         
+
+
+ endDate = getDate("Enter end date (DD/MM/YYYY):"); 
 
 }
 
