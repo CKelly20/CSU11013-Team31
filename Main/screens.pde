@@ -66,7 +66,7 @@ class Screen{
    text("About Us", 120, 250);
    textFont(stdFont);
    fill(255);
-   text("The current program was  built \nand designed by Ahmed, Conor, \nVictor, Ayo, Kevin and Ciaran", 50, 280);
+   text("The current program was  built \nand designed by Ahmed, Conor, \nVictor, Ayo, Somto and Ciaran", 50, 280);
    logo.resize(100,0);
    image(logo, 170,70);
    }  

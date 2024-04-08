@@ -6,7 +6,7 @@ import controlP5.*;
 
 PFont stdFont;
 PFont myFont;
-Widget widget1, widget2, widget3, widget4, widget5, dateButton; 
+Widget widget1, widget2, widget3, widget4, widget5, widget6; 
 Screen currentScreen,screen1, screen2, screen3, screen4, screen5;
 Render currentRender;
 
@@ -32,7 +32,6 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
   americaMap = loadShape("MapOfAmerica.svg"); // Load the map outline from the SVG file
   americaMap.scale(0.9); // Scale the map to fit within the canvas
   americaMap.translate(0, 0);
-  
   stateDots = new HashMap<String, PVector>(); // Initialize the HashMap
   flightsByState = new HashMap<String, ArrayList<Flights>>();
   
@@ -113,7 +112,7 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
           stdFont, EVENT_BACKWARD);
   widget5 =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
           stdFont, EVENT_BUTTON3);
-  dateButton =  new Widget(110, 270, 220, 40, "Set Date Range", color(125, 150, 200),
+  widget6 =  new Widget(110, 270, 220, 40, "Set Date Range", color(125, 150, 200),
           stdFont, EVENT_BUTTON4);
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
@@ -123,7 +122,7 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
   screen1.addWidget(widget1, widget2);
   screen1.addWidget(widget3, widget5);
-  screen1.addWidget(dateButton);
+  screen1.addWidget(widget6);
   screen2.addWidget(widget4);
   screen3.addWidget(widget4);
   screen4.addWidget(widget4);
@@ -146,13 +145,11 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
   customize(d1); // customize the first list                            // Hide all the minor details getting assigned.
   cp5.setAutoDraw(false);                                               // We decide when to draw the menu.
   myFont = createFont("Arial", 14);  
-  cp5.setFont(myFont);
+  cp5.setFont(myFont);     
 
 
-
-
- startDate = getDate("Enter start date (DDMMYYYY):");
- endDate = getDate("Enter end date (DDMMYYYY):");         
+ startDate = getDate("Enter start date (DD/MM/YYYY):");
+ endDate = getDate("Enter end date (DD/MM/YYYY):");         
 
 }
 
@@ -180,11 +177,11 @@ void mousePressed(){
      break;
     case EVENT_BUTTON4:
      boolean dateInputSuccessful = getDate(); // Ask for date only when "Set Date Range" button is pressed
-      if (dateInputSuccessful) {
-        currentScreen = screen4; // Switch screen only if date input was successful
-        currentRender.query= QUERY_4;
-        currentRender.data= lines;
-      }
+     if (dateInputSuccessful) {
+       currentScreen = screen4; // Switch screen only if date input was successful
+       currentRender.query= QUERY_4;
+       currentRender.data= lines;
+     }
      break;
      case FLIGHT_INFO_SCREEN:
      currentScreen = screen5;
@@ -206,14 +203,14 @@ void mousePressed(){
          return;
        }
      }
-  if (currentScreen == screen4) {
-    handleMapScreenClick();
-  } else if (currentScreen == screen5) {
-    handleFlightInfoScreenClick();
-  }
-  }
-
-void mouseMoved(){      //Changes Colour of widgets outline when mouse hovers them
+     if (currentScreen == screen4) {
+       handleMapScreenClick();
+     } else if (currentScreen == screen5) {
+       handleFlightInfoScreenClick();
+     }
+   }
+   
+   void mouseMoved(){      //Changes Colour of widgets outline when mouse hovers them
   int event;
   ArrayList widgetList = currentScreen.getWidgets();
   for(int i = 0; i<widgetList.size(); i++){
