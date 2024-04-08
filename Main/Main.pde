@@ -7,7 +7,7 @@ import controlP5.*;
 PFont stdFont;
 PFont myFont;
 Widget widget1, widget2, widget3, widget4, widget5, widget6; 
-Screen currentScreen,screen1, screen2, screen3, screen4, screen5;
+Screen currentScreen,screen1, screen2, screen3, screen4, screen5, screen6;
 Render currentRender;
 
 
@@ -104,7 +104,7 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
   
   widget1 = new Widget(30, 450, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
-  widget2 = new Widget(110, 330, 220, 40, "Shortest flights", color(125, 150, 200),        
+  widget2 = new Widget(110, 330, 220, 40, "Longest flights", color(125, 150, 200),        
          stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(110, 390, 220, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
@@ -114,18 +114,24 @@ void setup() {  // reads data and converts to bytes, to string, then printData m
           stdFont, EVENT_BUTTON3);
   widget6 =  new Widget(110, 270, 220, 40, "Set Date Range", color(125, 150, 200),
           stdFont, EVENT_BUTTON4);
+ Widget moreInfoButton = new Widget(width - 250, height - 100, 200, 50, "More Info",
+                      color(125, 150, 200), stdFont, EVENT_MORE_INFO);
+  moreInfoButton.draw();
+  
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
   screen2 = new Screen(color(24,162,154), new ArrayList<Widget>(), 2);
   screen3 = new Screen(color(24,162,154), new ArrayList<Widget>(), 3);
   screen4 = new Screen(color(24,162,154), new ArrayList<Widget>(),4);
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
+  screen6= new Screen(color(24,162,154), new ArrayList<Widget>(), 7);
   screen1.addWidget(widget1, widget2);
   screen1.addWidget(widget3, widget5);
   screen1.addWidget(widget6);
-  screen2.addWidget(widget4);
+  screen2.addWidget(widget4,moreInfoButton);
   screen3.addWidget(widget4);
   screen4.addWidget(widget4);
+  screen6.addWidget(widget4);
   currentScreen = screen1;
   currentRender = new Render (QUERY_NULL, null);    //Setting up a render object 
 
@@ -178,6 +184,12 @@ void mousePressed(){
      case EVENT_BUTTON3:        //Button for About
      currentScreen = screen3;
      break;
+   case EVENT_MORE_INFO:
+      println("More Information button pressed!");
+      currentScreen = screen6;// Switch to the new screen for pie chart
+      currentRender.query=QUERY_5;
+      currentRender.data=lines;
+      break;
     case EVENT_BUTTON4:
      boolean dateInputSuccessful = getDate(); // Ask for date only when "Set Date Range" button is pressed
      if (dateInputSuccessful) {
