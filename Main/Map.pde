@@ -1,3 +1,8 @@
+/*Relevant code for drawing map of America along with each state and displaying 
+  flights from each state
+  
+  Author  : O.Kukoyi */
+
 import javax.swing.JOptionPane;
 import java.util.Map;
 import java.text.ParseException;
@@ -67,10 +72,11 @@ void loadMap() {
   stateDots.put("AL", new PVector(700, 400)); // Alabama
   stateDots.put("MS", new PVector(650, 400)); // Mississippi
   stateDots.put("TN", new PVector(680, 340)); // Tennessee
+  stateDots.put("AK", new PVector(180, 550));
 }
 
 void promptForDateRange() {
-  startDate = getDate("Enter start date (DDMMYYYY):");
+  startDate = getDate("Enter start date (DDMMYYYY):");  // ask user for date range
   endDate = getDate("Enter end date (DDMMYYYY):");
 }
 
@@ -94,7 +100,7 @@ boolean isValidDate(String date) {
     return false;
   }
   try {
-    int day = Integer.parseInt(date.substring(0, 2));
+    int day = Integer.parseInt(date.substring(0, 2)); // extract day month and year from date
     int month = Integer.parseInt(date.substring(3, 5));
     int year = Integer.parseInt(date.substring(6));
     if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1000 || year > 9999) {
@@ -157,8 +163,8 @@ void drawStateDots() {
       // Draw the dot
       noStroke();
       ellipse(dotPos.x, dotPos.y, 10, 10);
-      text(state, dotPos.x + 15, dotPos.y);
      }
+     text(state, dotPos.x + 15, dotPos.y);
   }
 }
 
