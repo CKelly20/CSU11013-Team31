@@ -43,25 +43,4 @@ class Flights {  // O.Kukoyi and S.Onwubilo added flights class and initialized 
   distance = int (data[17]);
  }
  
-void printFlight() {
-  println("Flight Date: " + flightDate);
-  println("Airline Code: " + mktCarrier);
-  println("Flight Number: " + mktFlightNum);
-  println("Origin: " + origin);
-  println("Origin City: " + originCityName);
-  println("Origin State: " + originState);
-  println("Origin WAC: " + originWac);
-  println("Destination: " + destination);
-  println("Destination City: " + destCityName);
-    println("Destination State: " + destState);
-    println("Destination WAC: " + destWac);
-    println("Scheduled Departure Time: " + crsDepTime);
-    println("Actual Departure Time: " + depTime);
-    println("Scheduled Arrival Time: " + crsArrTime);
-    println("Actual Arrival Time: " + arrTime);
-    println("Cancelled: " + cancelled);
-    println("Diverted: " + diverted);
-    println("Distance: " + distance);
-    println("---------------");
-  }
  }

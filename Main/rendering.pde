@@ -75,7 +75,7 @@ void drawBusiestAirports() {
     airportCounts.put(arrivalAirport, airportCounts.getOrDefault(arrivalAirport, 0) + 1);
   }
 
-  // Sort and limit to top 10 airports
+  // Sort and limit to top 15 airports
   List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(airportCounts.entrySet());
   sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
   sortedEntries = sortedEntries.subList(0, Math.min(15, sortedEntries.size()));
@@ -84,6 +84,8 @@ void drawBusiestAirports() {
   float barWidth = (width - 400) / sortedEntries.size() - 10;
   float maxBarHeight = 300;
   int maxCount = sortedEntries.get(0).getValue();
+  
+  
 
   // Update animation heights
   if (millis() - lastUpdateTime > updateInterval * 1000) {
@@ -117,11 +119,15 @@ void drawBusiestAirports() {
   fill(0);
   textSize(30);
   text("Busiest Airports", 400, 50);
-  text("Airports", 450, height - 30); // X-axis label
+  text("Airports", 450, height - 80); // X-axis label
   pushMatrix();
-  translate(20, height / 2);
-  rotate(-HALF_PI);
-  text("Number of Flights", 0, -350); // Adjust positioning as needed
+  translate(120, height - 300); // Adjust position if needed
+  rotate(-HALF_PI); // Rotate by -90 degrees (counter-clockwise)
+  textFont(boldFont);
+  fill(0);
+  textSize(30);
+  text("Number of Flights", -150, 0);
+  textSize(14);
   popMatrix();
 }
  void drawLongestFlightRoutes() {  //Ciarán Nolan

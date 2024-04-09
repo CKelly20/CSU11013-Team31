@@ -29,12 +29,12 @@ void setup() {
   
   flightsByState = new HashMap<String, ArrayList<Flights>>();
   
-  for (int i = 1; i < lines.length; i++) {
-    String[] data = lines[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-    flights[i] = new Flights(data);
-     Flights flight = flights[i];
+  for (int i = 1; i < lines.length; i++) {    //written by O.Kukoyi
+    String[] data = lines[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); 
+    flights[i] = new Flights(data); // creates a new instance of a class called Flights
+     Flights flight = flights[i];  // assigns Flight object to a variable called flight
     String originState = flight.originState;
-    if (!flightsByState.containsKey(originState)) {
+    if (!flightsByState.containsKey(originState)) { //if the map does not contain a key equal to originState
       flightsByState.put(originState, new ArrayList<Flights>());
     }
     flightsByState.get(originState).add(flight);
@@ -104,11 +104,11 @@ void setup() {
 void draw() {  
   currentScreen.draw();
   currentRender.draw();
-  if(currentScreen == screen4){
+  if(currentScreen == screen4){    // code to draw the map of america aswell as each state
     shape(americaMap, -150, 20);
     drawStateDots();
   }else if (currentScreen == screen5) {
-    drawFlightInfoScreen();
+    drawFlightInfoScreen();   //flight info screen depending on state clicked
   }
   }
 
@@ -143,11 +143,11 @@ void mousePressed(){
      currentScreen = screen1;
      currentRender.query= QUERY_NULL;
      break;
-   case EVENT_BUTTON6:
-     promptForDateRange();
+   case EVENT_BUTTON6:               // button for data range query
+     promptForDateRange();          // when pressed, prompts user for date
      if (startDate != null || endDate != null) {
      currentScreen = screen4;
-     loadMap();
+     loadMap();                   // load state dots
      }
      else 
      currentScreen = screen1;
