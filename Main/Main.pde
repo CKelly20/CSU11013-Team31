@@ -1,4 +1,4 @@
- //<>// //<>//
+ //<>//
 import controlP5.*;
 
 String[] lines;
