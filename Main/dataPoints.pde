@@ -2,9 +2,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
 class Flights {  // O.Kukoyi and S.Onwubilo added flights class and initialized the variables for data
    String flightDate;
    String mktCarrier;

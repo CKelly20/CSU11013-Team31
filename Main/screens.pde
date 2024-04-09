@@ -22,6 +22,15 @@ class Screen{
    void addWidget(Widget widget1){
     screenWidgets.add(widget1);
   }
+  
+  void removeWidget(Widget widget1, Widget widget2){
+    screenWidgets.remove(widget1);
+    screenWidgets.remove(widget2);
+  }
+  
+   void removeWidget(Widget widget1){
+    screenWidgets.remove(widget1);
+  }
 
   int getEvent(int mX, int mY){
     for(int i = 0; i < screenWidgets.size(); i++){
