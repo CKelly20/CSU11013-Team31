@@ -4,7 +4,7 @@ import controlP5.*;
 String[] lines;
 PFont stdFont;
 PFont myFont;
-Widget widget1, widget2, widget3, returnButton, aboutButton, dateButton, returnButton2, dropdownButton, returnDropdownButton; 
+Widget widget1, widget2, widget3, returnButton, aboutButton, dateButton, returnButton2, dropdownButton, returnDropdownButton, moreInfoButton; 
 Screen currentScreen,screen1, screen2, screen3, screen4, screen5, screen6, screen7;
 Render currentRender;
 
@@ -52,8 +52,8 @@ void setup() {
           stdFont, EVENT_BACKWARD);
   aboutButton =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
           stdFont, EVENT_BUTTON3);
- Widget moreInfoButton = new Widget(width - 250, height - 100, 200, 50, "More Info",
-                      color(125, 150, 200), stdFont, EVENT_MORE_INFO);
+  moreInfoButton = new Widget(750, 630, 200, 40, "More Info", color(100, 155, 150),
+          stdFont, EVENT_MORE_INFO);
   moreInfoButton.draw();
   dateButton = new Widget(110,270,220,40,"Set Date Range", color(125, 150, 200),
           stdFont, EVENT_BUTTON6);

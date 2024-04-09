@@ -261,6 +261,7 @@ void drawFlightDurationPieChart() {    //Ciarán Nolan
     text("Longest Flight Routes ", 100, 100);// title
     
      textSize(14);
+     noStroke();
     // Draw a pie chart segment for each flight route
     for (int i = 0; i < top5Routes.size(); i++) {
         Map.Entry<String, Float> entry = top5Routes.get(i);
