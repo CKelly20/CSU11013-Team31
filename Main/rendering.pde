@@ -210,7 +210,7 @@ void drawBusiestAirports() {
       line(x + 50, y, x + 50, y + 5);
       // Display the route below the bar
       fill(0); // Set text color to black
-      textSize(15); // Reduced text size for readability
+      textSize(13); // Reduced text size for readability
       text(route, x + 50 - textWidth(route) / 2, y + 20); // Adjusted route position, below x-axis
       x += 150; // Adjust x position for the next bar
     }
