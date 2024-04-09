@@ -1,3 +1,4 @@
+
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.List;
@@ -111,7 +112,7 @@ void drawBusiestAirports() {
     fill(0);
     text(airportName, x + (barWidth + 10) * i + barWidth / 2, y + 20);
 
-    text(entry.getValue().toString(), x + (barWidth + 10) * i + barWidth / 2 - 5, y - finalHeight - 5);
+    text(entry.getValue().toString(), x + (barWidth + 10) * i + barWidth / 2, y - finalHeight - 5);
   }
 
   // Title and labels
@@ -119,35 +120,39 @@ void drawBusiestAirports() {
   fill(0);
   textSize(30);
   text("Busiest Airports", 400, 50);
-  text("Airports", 450, height - 80); // X-axis label
+  text("Airports", 450, height - 30); // X-axis label
+    // Draw Y-axis line
+  line(150, y, 150, y - maxBarHeight - 20);
+
+  // Draw X-axis li
+  line(160, y, width - 50, y);
+
+  // Draw Y-axis ticks and labels
+  for (int i = 0; i <= maxCount; i += maxCount / 5) {
+    float yTick = map(i, 0, maxCount, y, y - maxBarHeight);
+    textSize(20);
+    text(i, 97, yTick + 5);
+    line(137, yTick, 170, yTick);
+  }
+  
   pushMatrix();
   translate(120, height - 300); // Adjust position if needed
   rotate(-HALF_PI); // Rotate by -90 degrees (counter-clockwise)
   textFont(boldFont);
   fill(0);
-  textSize(30);
-  text("Number of Flights", -150, 0);
+  textSize(25);
+  text("Number of Flights", -110, -50);
   textSize(14);
   popMatrix();
 }
  void drawLongestFlightRoutes() {  //Ciarán Nolan
     if (data == null || data.length < 2) return; // Check for null data or insufficient rows
 
-
-
-  
-void drawShortestFlightDurations() {
-  // Create a list to store flight durations
-  ArrayList<FlightDuration> flightDurations = new ArrayList<>();
-      
- for (int i = 1; i < data.length; i++) {
-
     // Initialize a HashMap to store flight durations for each route
     HashMap<String, Float> routeDurations = new HashMap<>();
 
     // Start from i = 1 to skip the first row
     for (int i = 1; i < data.length; i++) {
-
       String line = data[i];
       String[] parts = line.split(",");
       if (parts.length >= 16) { // Ensure parts has enough elements
