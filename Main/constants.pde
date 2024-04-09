@@ -7,6 +7,8 @@ final int EVENT_BUTTON2=3;
 final int EVENT_BACKWARD=4;
 final int EVENT_BUTTON3=5;
 final int EVENT_BUTTON4=6;
+final int DROPDOWN = 9;
+final int RETURN_DROPDOWN = 10;
 
 final int EVENT_MORE_INFO=8;
 final int EVENT_BUTTON6 =6;

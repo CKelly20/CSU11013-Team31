@@ -4,7 +4,7 @@ import controlP5.*;
 String[] lines;
 PFont stdFont;
 PFont myFont;
-Widget widget1, widget2, widget3, widget4, widget5, widget6, widget7; 
+Widget widget1, widget2, widget3, returnButton, aboutButton, dateButton, returnButton2, dropdownButton, returnDropdownButton; 
 Screen currentScreen,screen1, screen2, screen3, screen4, screen5, screen6, screen7;
 Render currentRender;
 
@@ -42,23 +42,27 @@ void setup() {
   stdFont = loadFont("Candara-Italic-30.vlw");
   textFont(stdFont);
   
-   widget1 = new Widget(30, 450, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
+   widget1 = new Widget(30, 510, 400, 40, "Leading States in cancellations.", color(125, 150, 200),
           stdFont, EVENT_BUTTON1);
-  widget2 = new Widget(110, 330, 220, 40, "Longest flights", color(125, 150, 200),        
+  widget2 = new Widget(110, 450, 220, 40, "Longest flights", color(125, 150, 200),        
          stdFont, EVENT_BUTTON2); 
   widget3 = new Widget(110, 390, 220, 40, "Busiest Airports", color(125, 150, 200),
           stdFont, EVENT_FORWARD); 
-  widget4 = new Widget(40, 630, 200, 40, "Return", color(100, 155, 150),
+  returnButton = new Widget(40, 630, 200, 40, "Return", color(100, 155, 150),
           stdFont, EVENT_BACKWARD);
-  widget5 =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
+  aboutButton =  new Widget(40, 630, 100, 40, "About", color(125, 150, 200),
           stdFont, EVENT_BUTTON3);
  Widget moreInfoButton = new Widget(width - 250, height - 100, 200, 50, "More Info",
                       color(125, 150, 200), stdFont, EVENT_MORE_INFO);
   moreInfoButton.draw();
-  widget6 = new Widget(110,270,220,40,"Set Date Range", color(125, 150, 200),
+  dateButton = new Widget(110,270,220,40,"Set Date Range", color(125, 150, 200),
           stdFont, EVENT_BUTTON6);
-  widget7 =  new Widget(40, 630, 200, 40, "Return", color(100, 155, 150),
+  returnButton2 =  new Widget(40, 630, 200, 40, "Return", color(100, 155, 150),
           stdFont, EVENT_BACKWARD2);
+  dropdownButton =  new Widget(110, 330, 220, 40, "Queries", color(125, 150, 200),
+          stdFont, DROPDOWN);
+  returnDropdownButton =  new Widget(110, 330, 220, 40, "Queries", color(125, 150, 200),
+          stdFont, RETURN_DROPDOWN);
   
   screen1 = new Screen(color(200,204,225), new ArrayList<Widget>(), 1);
   screen2 = new Screen(color(24,162,154), new ArrayList<Widget>(), 2);
@@ -67,17 +71,16 @@ void setup() {
   screen5 = new Screen(color(24,162,154), new ArrayList<Widget>(),5);
   screen6= new Screen(color(24,162,154), new ArrayList<Widget>(), 8);
   screen7=  new Screen(color(24,162,154), new ArrayList<Widget>(), 2);
-  screen1.addWidget(widget1, widget2);
-  screen1.addWidget(widget3, widget5);
-  screen1.addWidget(widget6);
-  screen2.addWidget(widget4);
-  screen3.addWidget(widget4);
-  screen4.addWidget(widget4);
-  screen6.addWidget(widget4);
-  screen7.addWidget(widget4, moreInfoButton);
+  screen1.addWidget(aboutButton, dropdownButton);
+  screen1.addWidget(dateButton);
+  screen2.addWidget(returnButton);
+  screen3.addWidget(returnButton);
+  screen4.addWidget(returnButton);
+  screen6.addWidget(returnButton);
+  screen7.addWidget(returnButton, moreInfoButton);
   currentScreen = screen1;
   currentRender = new Render (QUERY_NULL, null);    //Setting up our render object 
-  screen5.addWidget(widget7);  //Setting up a render object  
+  screen5.addWidget(returnButton2);  //Setting up a render object  
 
   
   backgroundImage = loadImage("background.jpg");    // This is for the screens class  
@@ -152,6 +155,18 @@ void mousePressed(){
     case EVENT_BACKWARD2:
      currentScreen = screen4;
      currentRender.query= QUERY_NULL;
+     break;
+     case DROPDOWN:
+     screen1.addWidget(returnDropdownButton);
+     screen1.addWidget(widget1, widget2);
+     screen1.addWidget(widget3);
+     screen1.removeWidget(dropdownButton);
+     break;
+     case RETURN_DROPDOWN:
+     screen1.removeWidget(returnDropdownButton);
+     screen1.removeWidget(widget1, widget2);
+     screen1.removeWidget(widget3);
+     screen1.addWidget(dropdownButton);
      break;
    }
     handleMapScreenClick();
